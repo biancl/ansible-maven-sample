@@ -1,0 +1,33 @@
+- hosts: app
+  become_user: app
+  vars:
+    war:
+      name: ansible-hello-world
+      path: com/cfets/devops
+      context: helloworld
+    artifactory:
+      repo: http://172.19.223.15:8080/artifactory/libs-snapshot
+  vars_prompt:
+  - name: "app_version"
+    prompt: "Please enter the version of app to deploy:"
+    private: no
+    confirm: no
+  - pre_tasks:
+    - name: stop tomcat service
+      shell: shutdown.sh | /bin/true
+      args:
+        chdir: tomcat/bin/
+  roles:
+    - app
+  - post_tasks:
+    - name: check service alived
+      uri: 
+        url: "http://127.0.0.1:8080/{{war.context}}"
+        return_content: yes
+        status_code: 200
+        validate_certs: no
+        timeout: 30
+      register: tomcat_status
+    - name: failed when server not running
+      fail:
+      when: "{{tomcat_status.status|int}} >= 400"

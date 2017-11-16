@@ -1,0 +1,8 @@
+- name: download the war file.
+  get_url:
+    url: "{{artifactory.repo}}/{{war.path}}/{{war.name}}-{{app_version}}"
+    dest: "./tomcat/webapps/{{war.context}}.war"
+    timeout: 5
+    validate_certs: no
+  notify:
+    - restart tomcat

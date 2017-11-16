@@ -1,4 +1,5 @@
 - hosts: proxy
-  user: root
+  become_user: root
+  become_method: sudo
   roles:
     - nginx

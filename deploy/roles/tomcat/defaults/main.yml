@@ -1,0 +1,4 @@
+tomcat:
+    base_url: http://172.19.223.15:8081/artifactory/softwares/apache-tomcat
+    version: 8.5.23
+java_opts: " -Dfile.encoding=UTF-8 -Djava.awt.headless=true -Xss256M -Xms512M "

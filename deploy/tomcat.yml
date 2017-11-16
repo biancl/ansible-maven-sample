@@ -1,0 +1,4 @@
+- hosts: app
+  become_user: app
+  roles:
+    - tomcat
