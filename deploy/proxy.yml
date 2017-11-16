@@ -1,0 +1,4 @@
+- hosts: proxy
+  user: root
+  roles:
+    - nginx
