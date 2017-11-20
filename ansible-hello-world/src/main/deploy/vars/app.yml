@@ -1,0 +1,7 @@
+war:
+  # artifactId
+  name: ansible-hello-world
+  # war包名字
+  path: com/cfets/devops
+  # 部署的war包名字
+  context: helloworld

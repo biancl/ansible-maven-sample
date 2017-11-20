@@ -1,0 +1,20 @@
+[proxy]
+172.19.223.14 ansible_connection=ssh ansible_user=admin ansible_become=true
+
+[app]
+172.19.223.14 ansible_connection=ssh ansible_user=admin ansible_become=true
+
+[all:children]
+proxy
+app
+
+[proxy:vars]
+app_server_host=172.19.223.14
+app_server_port=8080
+
+[app:vars]
+java_opts="-Dfile.encoding=UTF-8 -Djava.awt.headless=true -Xss256M -Xms512M "
+artifcatory_repo="http://172.19.223.15:8081/artifactory/libs-release"
+
+[all:vars]
+ansible_password=admin123

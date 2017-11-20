@@ -1,0 +1,12 @@
+
+artifactory:
+  repo: http://172.19.223.15:8081/artifactory/libs-release
+
+app:
+  installer_dir: ./installers
+  tomcat:
+    install_dir: .
+    instance_name: tomcat
+    java_opts: "-Dfile.encoding=UTF-8 -Djava.awt.headless=true -Xss256M -Xms512M "
+nginx:
+#  worker_processes: 4

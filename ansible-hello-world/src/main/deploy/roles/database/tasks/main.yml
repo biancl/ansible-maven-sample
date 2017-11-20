@@ -1,0 +1,18 @@
+- name: install mybatis-migrations  to server
+  unarchive:
+    src: mybatis-migrations/
+    dest: '{{app.installer_dir}}/migration'
+    follow: true
+- name: copy
+  copy:
+    src: "{{ item }}"
+    dest: "database/{{item}}"
+    backup: true
+  with_items:
+     - dirvers
+     - environments
+     - scripts
+     - README
+
+
+

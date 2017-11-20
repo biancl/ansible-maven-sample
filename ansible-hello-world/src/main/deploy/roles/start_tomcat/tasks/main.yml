@@ -1,0 +1,18 @@
+- name: start tomcat
+  shell: nohup ./startup.sh
+  args:
+    chdir: tomcat/bin/
+  register: tomcat_startup
+- debug:
+    msg: "{{tomcat_startup.stdout}}"
+- name: check service alived
+  uri:
+    url: "http://{{hostvars[inventory_hostname]['ansible_default_ipv4']['address']}}:{{app_server_port}}/{{war.context}}"
+    return_content: yes
+    status_code: 200
+    validate_certs: no
+    timeout: 120
+  register: tomcat_status
+- name: failed when server not running
+  fail:
+  when: tomcat_status.status|int != 200

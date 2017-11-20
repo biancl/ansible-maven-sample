@@ -1,5 +1,0 @@
-- name: restart tomcat
-  shell: tomcat/bin/shutdown.sh || /bin/true && tomcat/bin/startup.sh
-  register: tomcat_startup
-- debug:
-    msg: "{{tomcat_startup.stdout}}"

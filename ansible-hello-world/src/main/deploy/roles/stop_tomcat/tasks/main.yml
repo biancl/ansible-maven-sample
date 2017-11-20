@@ -1,0 +1,15 @@
+- name: stop tomcat service
+  shell: nohup ./shutdown.sh
+  args:
+    chdir: tomcat/bin/
+- name: check tomcat stoped
+  uri:
+    url: "http://{{hostvars[inventory_hostname]['ansible_default_ipv4']['address']}}:{{app_server_port}}/{{war.context}}"
+    return_content: yes
+    status_code: -1
+    validate_certs: no
+    timeout: 120
+  register: tomcat_status
+- name: kill the tomcat when tomcat still running
+  shell: kill $(ps aux | grep 'tomcat' | awk '{print $2}')
+  when: tomcat_status.status|int != -1
