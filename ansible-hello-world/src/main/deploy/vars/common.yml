@@ -9,4 +9,4 @@ app:
     instance_name: tomcat
     java_opts: "-Dfile.encoding=UTF-8 -Djava.awt.headless=true -Xss256M -Xms512M "
 nginx:
-#  worker_processes: 4
+  worker_processes: 4
