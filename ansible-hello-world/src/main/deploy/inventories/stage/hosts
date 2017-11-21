@@ -19,7 +19,7 @@ database_server_host=172.19.223.14
 database_server_port=3306
 database_server_instance=devops
 database_user=jeffrey
-database_passord=mypass
+database_password=mypass
 
 [all:vars]
 ansible_password=admin123

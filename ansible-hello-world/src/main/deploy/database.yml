@@ -1,0 +1,9 @@
+- hosts: app
+  become_user: app
+  vars_files:
+    - vars/common.yml
+    - vars/app.yml
+  vars:
+    app_env_name: stage
+  roles:
+    - database

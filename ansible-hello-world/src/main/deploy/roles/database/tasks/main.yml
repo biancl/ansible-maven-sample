@@ -1,18 +1,40 @@
+- name: make '{{app.installer_dir}}/migration/'
+  file:
+    path: '{{item}}'
+    state: directory
+    mode: 0755
+  with_items:
+       - '{{app.installer_dir}}/migration/'
+       - '{{app.installer_dir}}/migration/bin'
+       - '{{app.installer_dir}}/migration/lib'
 - name: install mybatis-migrations  to server
-  unarchive:
-    src: mybatis-migrations/
-    dest: '{{app.installer_dir}}/migration'
-    follow: true
-- name: copy
+  copy:
+    src: mybatis-migrations
+    dest: '{{app.installer_dir}}'
+    follow: yes
+    directory_mode: yes
+    unsafe_writes: no
+    mode: 0755
+- name: create database scripts dirs
+  file:
+    path: '{{item}}'
+    state: directory
+    mode: 0755
+  with_items:
+     - database/drivers
+     - database/environments
+     - database/scripts
+- name: copy database scripts
   copy:
     src: "{{ item }}"
-    dest: "database/{{item}}"
-    backup: true
+    dest: "database"
+    backup: yes
   with_items:
-     - dirvers
+     - drivers
      - environments
      - scripts
      - README
-
-
-
+- name: replace environments file
+  template:
+    src: env.properties.j2
+    dest: 'database/environments/{{app_env_name}}.properties'
