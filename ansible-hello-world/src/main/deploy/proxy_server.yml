@@ -5,4 +5,4 @@
     - vars/common.yml
     - vars/app.yml
   roles:
-    - nginx
+    - deploy_nginx
