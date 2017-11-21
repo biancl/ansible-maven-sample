@@ -1,0 +1,8 @@
+- hosts: proxy
+  become_user: root
+  become_method: sudo
+  vars_files:
+    - vars/common.yml
+    - vars/app.yml
+  roles:
+    - nginx

@@ -1,0 +1,13 @@
+<assembly>
+    <id>deploy</id>
+    <formats>
+        <format>tar.gz</format>
+    </formats>
+    <fileSets>
+
+        <fileSet>
+            <directory>src/main/deploy</directory>
+            <outputDirectory>deploy</outputDirectory>
+        </fileSet>
+    </fileSets>
+</assembly>

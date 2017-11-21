@@ -1,0 +1,5 @@
+- name: replace environments file
+  template:
+    src: env.properties.j2
+    dest: 'database/environments/{{app_env_name}}.properties'
+

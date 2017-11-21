@@ -1,0 +1,12 @@
+- name: download tomcat from artifactory
+  get_url: 
+    validate_certs: no
+    url: "{{tomcat.base_url}}/apache-tomcat-{{tomcat.version}}.tar.gz"
+    dest: "./apache-tomcat-{{tomcat.version}}.tar.gz"
+- name: extract tarball
+  unarchive: tar xzf "apache-tomcat-{{tomcat.version}}.tar.gz"
+- name: rename tomcat directory
+  shell: mv "apache-tomcat-{{tomcat.version}}" tomcat
+- name: replace config file
+  template: src=setenv.sh.j2 dest=tomcat/bin/setenv.sh
+
