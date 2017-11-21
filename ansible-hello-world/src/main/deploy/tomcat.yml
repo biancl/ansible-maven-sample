@@ -4,4 +4,4 @@
     - vars/common.yml
     - vars/app.yml
   roles:
-    - tomcat
+    - deploy_tomcat
