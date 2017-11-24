@@ -1,6 +1,6 @@
-- name: delete './{{app.tomcat.instance_name}}/webapps/{{war.context}}'
+- name: delete '{{tomcat.dir}}/webapps/{{war.context}}'
   file:
-    path: './{{app.tomcat.instance_name}}/webapps/{{war.context}}'
+    path: '{{tomcat.dir}}/webapps/{{war.context}}'
     state: absent
 - name: download the war file
   get_url:
@@ -9,16 +9,16 @@
     force: true
     timeout: 5
     validate_certs: no
-- name: create './{{app.tomcat.instance_name}}/webapps/{{war.context}}/'
+- name: create '{{tomcat.dir}}/webapps/{{war.context}}/'
   file:
-    path: './{{app.tomcat.instance_name}}/webapps/{{war.context}}'
+    path: '{{tomcat.dir}}/webapps/{{war.context}}'
     state: directory
 - name: extract '{{war.context}}.war'
   unarchive:
     remote_src: yes
     src: "./installers/{{war.name}}-{{app_version}}.war"
-    dest: './{{app.tomcat.instance_name}}/webapps/{{war.context}}'
+    dest: '{{tomcat.dir}}/webapps/{{war.context}}'
 - name: Generate the config files
   template:
     src: application.properties.j2
-    dest: './{{app.tomcat.instance_name}}/webapps/{{war.context}}/WEB-INF/classes/application.properties'
+    dest: '{{tomcat.dir}}/webapps/{{war.context}}/WEB-INF/classes/application.properties'
