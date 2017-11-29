@@ -15,4 +15,4 @@
   register: tomcat_status
 - name: failed when server not running
   fail:
-  when: tomcat_status.status|int != 200
+  when: tomcat_status.status|int >= 400 or tomcat_status.status|int == -1
