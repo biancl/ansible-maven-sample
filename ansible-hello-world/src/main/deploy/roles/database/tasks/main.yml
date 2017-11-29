@@ -38,3 +38,7 @@
   template:
     src: env.properties.j2
     dest: 'database/environments/{{app_env_name}}.properties'
+- name: Get pending versions
+  shell: "{{app.installer_dir}}/migration/bin/migrate status --env={{app_env_name}} --path=database | grep pending | wc -l "
+- name: Upgrade the database
+  shell: "{{app.installer_dir}}/migration/bin/migrate up --env={{app_env_name}} --path=database "

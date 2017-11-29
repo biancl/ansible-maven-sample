@@ -6,7 +6,7 @@
 	<parent>
 		<artifactId>ansible-hello-world-parent</artifactId>
 		<groupId>com.cfets.devops</groupId>
-		<version>0.0.2</version>
+		<version>0.0.3</version>
 		<relativePath>..</relativePath>
 	</parent>
 
