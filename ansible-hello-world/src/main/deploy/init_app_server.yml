@@ -11,8 +11,18 @@
   tasks:
   - name: install jdk
     yum: name=java-1.8.0-openjdk state=installed
-  - user:
+  - name: create app user
+    user:
       name: app
       comment: "The application admin."
       state: present
       password: "{{ app_user_password }}"
+  - name: create common paths
+    file:
+      path: "{{item}}"
+      state: directory
+      mode: 0755
+    with_items:
+       - "{{installer_dir}}"
+       - bin
+       - logs
