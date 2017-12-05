@@ -17,12 +17,3 @@
       comment: "The application admin."
       state: present
       password: "{{ app_user_password }}"
-  - name: create common paths
-    file:
-      path: "{{item}}"
-      state: directory
-      mode: 0755
-    with_items:
-       - "{{app.installer_dir}}"
-       - bin
-       - logs
