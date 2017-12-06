@@ -102,7 +102,6 @@
 			<name>DTAGCIR02-snapshots</name>
 			<url>http://172.19.223.15:8081/artifactory/libs-snapshot-local</url>
 		</snapshotRepository>
-
 	</distributionManagement>
 
 </project>
