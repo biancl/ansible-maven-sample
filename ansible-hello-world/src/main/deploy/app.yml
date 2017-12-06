@@ -8,16 +8,6 @@
       prompt: "Please enter the version of app to deploy"
       private: no
       confirm: no
-  pre_tasks:
-    - name: create common paths
-      file:
-        path: "{{item}}"
-        state: directory
-        mode: 0755
-      with_items:
-         - "{{app.installer_dir}}"
-         - bin
-         - logs
   roles:
     - stop_tomcat
     - deploy_app
