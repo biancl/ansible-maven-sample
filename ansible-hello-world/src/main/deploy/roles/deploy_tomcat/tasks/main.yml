@@ -1,6 +1,6 @@
 - name: delete tomcat
   file:
-    path: '{{tomcat.dir}}'
+    path: '{{tomcat.dir}}/'
     state: absent
 - name: download tomcat from artifactory
   get_url: 

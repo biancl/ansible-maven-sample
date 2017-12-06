@@ -5,14 +5,19 @@
   register: tomcat_startup
 - debug:
     msg: "{{tomcat_startup.stdout}}"
-- name: check service alived
-  uri:
-    url: "http://{{hostvars[inventory_hostname]['ansible_default_ipv4']['address']}}:{{app_server_port}}/{{war.context}}"
-    return_content: yes
-    status_code: 200
-    validate_certs: no
+- name: waiting for tomcat started
+  wait_for:
     timeout: 120
-  register: tomcat_status
+    port: "{{app_server_port}}"
+    state: started
+- name: check app service is alived
+  uri:
+    url: "http://127.0.0.1:{{app_server_port}}/{{war.context}}"
+    return_content: yes
+    validate_certs: no
+    status_code: 200,302
+    timeout: 120
+  register: app_status
 - name: failed when server not running
   fail:
-  when: tomcat_status.status|int >= 400 or tomcat_status.status|int == -1
+  when: "'CFETSIT' not in app_status.content"
