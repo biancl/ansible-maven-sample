@@ -6,7 +6,7 @@
 	<parent>
 		<artifactId>ansible-hello-world-parent</artifactId>
 		<groupId>com.cfets.devops</groupId>
-		<version>0.0.3</version>
+		<version>0.0.3-SNAPSHOT</version>
 		<relativePath>..</relativePath>
 	</parent>
 
@@ -15,8 +15,6 @@
 
 	<name>ansible-hello-world</name>
 	<description>Demo project for CFETS DevOps</description>
-
-
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
