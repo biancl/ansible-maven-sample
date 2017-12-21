@@ -16,6 +16,11 @@
 	<name>ansible-hello-world</name>
 	<description>Demo project for CFETS DevOps</description>
 
+	<scm>
+		<url>http://192.168.8.230/devops/ansible-hello-world</url>
+		<connection>scm:git:http://192.168.8.230/devops/ansible-hello-world.git</connection>
+	</scm>
+
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
@@ -70,6 +75,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-assembly-plugin</artifactId>
+				<version>2.6</version>
 				<configuration>
 					<descriptors>
 						<descriptor>assembly.xml</descriptor>
@@ -86,7 +92,14 @@
 					</execution>
 				</executions>
 			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-release-plugin</artifactId>
+				<version>2.5.3</version>
+			</plugin>
 		</plugins>
+
 	</build>
 
 	<distributionManagement>
