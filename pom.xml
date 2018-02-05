@@ -10,37 +10,14 @@
 	</parent>
 
 	<groupId>com.cfets.devops</groupId>
-	<artifactId>ansible-hello-world-parent</artifactId>
+	<artifactId>ansible-maven-sample-parent</artifactId>
 	<version>0.0.7-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
-	<name>ansible-hello-world-parent</name>
+	<name>ansible::maven::sample</name>
 	<description>Demo project for CFETS DevOps</description>
 
 	<modules>
-		<module>ansible-hello-world</module>
+		<module>ansible-maven-sample</module>
 	</modules>
-
-	<distributionManagement>
-		<repository>
-			<id>releases</id>
-			<name>DTAGCIR02-releases</name>
-			<url>http://172.19.223.15:8081/artifactory/libs-release-local</url>
-		</repository>
-		<snapshotRepository>
-			<id>snapshots</id>
-			<name>DTAGCIR02-snapshots</name>
-			<url>http://172.19.223.15:8081/artifactory/libs-snapshot-local</url>
-		</snapshotRepository>
-
-	</distributionManagement>
-
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-release-plugin</artifactId>
-			</plugin>
-		</plugins>
-	</build>
 </project>

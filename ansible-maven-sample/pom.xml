@@ -9,15 +9,15 @@
 		<relativePath>..</relativePath>
 	</parent>
 
-	<artifactId>ansible-hello-world</artifactId>
+	<artifactId>ansible-maven-sample</artifactId>
 	<packaging>war</packaging>
 
-	<name>ansible-hello-world</name>
+	<name>ansible-maven-sample</name>
 	<description>Demo project for CFETS DevOps</description>
 
 	<scm>
-		<url>http://192.168.8.230/devops/ansible-hello-world</url>
-		<connection>scm:git:http://192.168.8.230/devops/ansible-hello-world.git</connection>
+		<url>http://gitlab/devops/ansible-maven-sample</url>
+		<connection>scm:git:http://gitlab/devops/ansible-maven-sample.git</connection>
 	</scm>
 
 	<properties>
