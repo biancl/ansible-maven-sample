@@ -6,13 +6,17 @@
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<version>1.5.8.RELEASE</version>
-		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 
 	<groupId>com.cfets.devops</groupId>
 	<artifactId>ansible-maven-sample-parent</artifactId>
 	<version>0.0.7-SNAPSHOT</version>
 	<packaging>pom</packaging>
+
 	<name>ansible::maven::sample</name>
 	<description>Demo project for CFETS DevOps</description>
+
+	<modules>
+		<module>ansible-maven-sample</module>
+	</modules>
 </project>
