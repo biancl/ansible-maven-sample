@@ -2,8 +2,8 @@
 
 node ('master') {
 
-    def artServer = Artifactory.server('demo');
-     artServer.credentialsId='artifactory-admin-credential';
+    def artServer = Artifactory.server('old');
+     artServer.credentialsId='chenyuqiang-artifactory-old';
     def buildInfo = Artifactory.newBuildInfo();
     buildInfo.env.capture = true
     stage 'Build'
