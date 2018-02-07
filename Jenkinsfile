@@ -3,18 +3,18 @@
 node ('master') {
 
     def artServer = Artifactory.server('artifactory');
-    artServer.credentialsId='artifactory-admin-credential';
+     artServer.credentialsId='artifactory-admin-credential';
     def buildInfo = Artifactory.newBuildInfo();
     buildInfo.env.capture = true
     stage 'Build'
     def rtMaven = Artifactory.newMavenBuild()
-    rtMaven.resolver server: artServer, releaseRepo: 'libs-release', snapshotRepo: 'libs-snapshot'
-    rtMaven.deployer server: artServer, releaseRepo: 'libs-snapshot-local', snapshotRepo: 'libs-snapshot-local'
+    rtMaven.resolver server: artServer, releaseRepo: 'app-releases-local', snapshotRepo: 'app-dev-local'
+    rtMaven.deployer server: artServer, releaseRepo: 'app-releases-local', snapshotRepo: 'app-dev-local'
     rtMaven.tool = 'maven'
     rtMaven.run pom: 'pom.xml', goals: 'clean install', buildInfo: buildInfo
 
 
-    node ('ansible-worker') {
+    node{
         properties([
             parameters([
                 stringParam(
