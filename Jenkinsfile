@@ -2,7 +2,7 @@
 
 node ('master') {
 
-    def artServer = Artifactory.server('artifactory');
+    def artServer = Artifactory.server('demo');
      artServer.credentialsId='artifactory-admin-credential';
     def buildInfo = Artifactory.newBuildInfo();
     buildInfo.env.capture = true
