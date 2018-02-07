@@ -8,8 +8,8 @@ node ('master') {
     buildInfo.env.capture = true
     stage 'Build'
     def rtMaven = Artifactory.newMavenBuild()
-    rtMaven.resolver server: artServer, releaseRepo: 'app-releases-local', snapshotRepo: 'app-dev-local'
-    rtMaven.deployer server: artServer, releaseRepo: 'app-releases-local', snapshotRepo: 'app-dev-local'
+    rtMaven.resolver server: artServer, releaseRepo: 'libs-releases-local', snapshotRepo: 'libs-snapshot-local'
+    rtMaven.deployer server: artServer, releaseRepo: 'libs-releases-local', snapshotRepo: 'libs-releases-local'
     rtMaven.tool = 'maven'
     rtMaven.run pom: 'pom.xml', goals: 'clean install', buildInfo: buildInfo
 
