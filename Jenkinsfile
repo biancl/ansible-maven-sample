@@ -14,7 +14,7 @@ node ('master') {
     rtMaven.run pom: 'pom.xml', goals: 'clean install', buildInfo: buildInfo
 
 
-    node{
+    node ('master') {
         properties([
             parameters([
                 stringParam(
