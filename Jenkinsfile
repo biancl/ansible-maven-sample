@@ -4,6 +4,9 @@ node {
     def artServer = Artifactory.server('artifactory');
     artServer.credentialsId='artifactory-admin-credential';
     
+    stage('pre-build'){
+        git credentialsId: 'git-biancl', url: 'http://200.31.147.77/devops/ansible-maven-sample.git'
+    }
 
     stage('build'){
     def rtMaven = Artifactory.newMavenBuild();
