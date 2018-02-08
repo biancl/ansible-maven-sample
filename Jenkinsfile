@@ -6,8 +6,8 @@ node {
     
 
     stage('build'){
-    def rtMaven = Artifactory.newBuildInfo();
-    def buildInfo = rtMaven.newBuildInfo();
+    def rtMaven = Artifactory.newMavenBuild();
+    def buildInfo = Artifactory.newBuildInfo();
     rtMaven.resolver server: artServer, releaseRepo: 'maven-release', snapshotRepo: 'maven-release';
     rtMaven.deployer server: artServer, releaseRepo: 'app-stages-local', snapshotRepo: 'app-dev-local';
     rtMaven.tool = 'maven';
