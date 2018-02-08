@@ -121,11 +121,11 @@
 	        <activation>
 	            <activeByDefault>true</activeByDefault>
 	        </activation>
-	        <propeties>
+	        <properties>
 	            <sonar.host.url>
 	                http://cwap.cfets.com:19000
 	            </sonar.host.url>
-	        </propeties>
+	        </properties>
 	    </profile>
 	    
 	</profiles>
