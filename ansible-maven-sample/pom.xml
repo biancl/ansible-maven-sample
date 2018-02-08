@@ -101,7 +101,7 @@
 
 	</build>
 	
-    <repositroies>
+    <repositories>
 	<repository>
 			<id>devops-maven</id>
 			<name>devops-maven</name>
@@ -113,7 +113,7 @@
 				<enabled>false</enabled>
 			</snapshots>
 	</repository>
-</repositroies>
+</repositories>
 	
 
 </project>
