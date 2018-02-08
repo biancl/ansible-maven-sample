@@ -100,7 +100,20 @@
 		</plugins>
 
 	</build>
-
+	
+    <repositroies>
+	<repository>
+			<id>devops-maven</id>
+			<name>devops-maven</name>
+			<url>http://172.17.197.192:8081/artifactory/maven-release</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+	</repository>
+</repositroies>
 	
 
 </project>
