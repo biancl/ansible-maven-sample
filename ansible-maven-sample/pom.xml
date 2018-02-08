@@ -115,5 +115,19 @@
 	</repository>
 </repositories>
 	
+	<profiles>
+	    <profile>
+	        <id>sonar</id>
+	        <activation>
+	            <activeByDefault>true</activeByDefault>
+	        </activation>
+	        <propeties>
+	            <sonar.host.url>
+	                http://cwap.cfets.com:19000
+	            </sonar.host.url>
+	        </propeties>
+	    </profile>
+	    
+	</profiles>
 
 </project>
