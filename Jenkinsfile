@@ -14,7 +14,7 @@ node('maven') {
     rtMaven.resolver server: artServer, releaseRepo: 'maven-release', snapshotRepo: 'maven-release';
     rtMaven.deployer server: artServer, releaseRepo: 'app-stages-local', snapshotRepo: 'app-dev-local';
     rtMaven.tool = 'maven';
-    rtMaven.run pom: 'pom.xml', goals: 'clean install sonar:sonar', buildInfo: buildInfo;
+    rtMaven.run pom: 'pom.xml', goals: 'clean install sonar:sonar -Dsonar.host.url=http://200.31.147.144:19000/', buildInfo: buildInfo;
     }
     
     stage('publish'){
