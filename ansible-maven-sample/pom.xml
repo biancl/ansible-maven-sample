@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
-		<artifactId>ansible-hello-world-parent</artifactId>
+		<artifactId>ansible-maven-sample-parent</artifactId>
 		<groupId>com.cfets.devops</groupId>
 		<version>0.0.7-SNAPSHOT</version>
 		<relativePath>..</relativePath>
