@@ -1,6 +1,6 @@
 #!groovy
 
-node('maven') {
+node {
     def artServer = Artifactory.server('artifactory');
     artServer.credentialsId='artifactory-admin-credential';
     
