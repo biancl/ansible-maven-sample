@@ -19,7 +19,7 @@ node('maven') {
  //   }
 
     stage('build'){
-        def buildInfo = rtMaven.run pom: 'pom.xml', goals: '-X clean install sonar:sonar -Dsonar.host.url=http://200.31.147.144:19000/';
+        def buildInfo = rtMaven.run pom: 'pom.xml', goals: '-X clean install ';
         artServer.publishBuildInfo buildInfo;
     }
     
