@@ -15,10 +15,16 @@ node('maven') {
     }
     
    stage('sonar') {
+       
         withSonarQubeEnv('sonar'){
+            configFileProvider([configFile(fileId: 'mvn-settings', targetLocation: '.m2/settings.xml', variable: 'M2_SETTINGS')]) {
+                // some block
+                sh 'mvn -gs ${M2_SETTINGS}  sonar:sonar -Dsonar.host.url=http://cwap.cfets.com:19000'
+            }
+
             //rtMaven.deployer.deployArtifacts = false;
             //rtMaven.run pom: 'pom.xml', goals: 'sonar:sonar';
-            sh 'mvn sonar:sonar -Dsonar.host.url=http://cwap.cfets.com:19000'
+           // sh 'mvn sonar:sonar -Dsonar.host.url=http://cwap.cfets.com:19000'
         }
     }
  
