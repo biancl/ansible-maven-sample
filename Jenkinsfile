@@ -14,9 +14,13 @@ node('maven') {
         git credentialsId: 'git-biancl', url: 'http://200.31.147.77/devops/ansible-maven-sample.git'
     }
     
-   // stage('test') {
-    //    sh 'mvn -X sonar:sonar -Dsonar.host.url=http://200.31.147.144:19000/'
- //   }
+   stage('sonar') {
+        withSonarQubeEnv('sonar'){
+            sh 'mvn org.sonarsource.scanner.maven:sonar-maven-plugin:3.2:sonar'
+        }
+    }
+ 
+ 
 
     stage('build'){
         def buildInfo = rtMaven.run pom: 'pom.xml', goals: '-X clean install ';
