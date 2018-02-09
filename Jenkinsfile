@@ -15,7 +15,7 @@ node('maven') {
     }
     
     stage('test') {
-        rtMaven.run pom: 'pom.xml', goals: 'sonar:sonar -Dsonar.host.url=http://200.31.147.144:19000/', buildInfo: buildInfo;
+        sh 'mvn -X sonar:sonar -Dsonar.host.url=http://200.31.147.144:19000/'
     }
 
     stage('build'){
