@@ -4,8 +4,8 @@ node('maven') {
     def artServer = Artifactory.server('artifactory');
     artServer.credentialsId='artifactory-admin-credential';
     def rtMaven = Artifactory.newMavenBuild();
-    //def buildInfo = Artifactory.newBuildInfo();
-    //buildInfo.env.capture = true;
+    def buildInfo = Artifactory.newBuildInfo();
+    buildInfo.env.capture = true;
     rtMaven.resolver server: artServer, releaseRepo: 'maven-release', snapshotRepo: 'maven-release';
     rtMaven.deployer server: artServer, releaseRepo: 'app-stages-local', snapshotRepo: 'app-dev-local';
     rtMaven.tool = 'maven';
@@ -32,12 +32,23 @@ node('maven') {
 
     stage('build'){
         rtMaven.deployer.deployArtifacts = true;
-        def buildInfo = rtMaven.run pom: 'pom.xml', goals: '-X clean install ';
-        artServer.publishBuildInfo buildInfo;
+        rtMaven.run pom: 'pom.xml', goals: 'clean install ', buildInfo;
+        buildInfo.env.capture = true;
+        buildInfo.env.collect();
+        
     }
     
     stage('publish'){
         echo 'published...';
-    } 
+        
+        artServer.publishBuildInfo buildInfo;
+    }
+    
+    post {
+        always {
+            echo 'publishe publishBuildInfo...';
+            artServer.publishBuildInfo buildInfo;
+        }
+    }
     
 }
