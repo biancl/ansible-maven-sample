@@ -16,8 +16,9 @@ node('maven') {
     
    stage('sonar') {
         withSonarQubeEnv('sonar'){
-            rtMaven.deployer.deployArtifacts = false;
-            rtMaven.run pom: 'pom.xml', goals: 'sonar:sonar';
+            //rtMaven.deployer.deployArtifacts = false;
+            //rtMaven.run pom: 'pom.xml', goals: 'sonar:sonar';
+            sh 'mvn sonar:sonar -Dsonar.host.url=http://cwap.cfets.com:19000'
         }
     }
  
