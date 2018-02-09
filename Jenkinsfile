@@ -7,7 +7,7 @@ node('maven') {
     def buildInfo = Artifactory.newBuildInfo();
     rtMaven.resolver server: artServer, releaseRepo: 'maven-release', snapshotRepo: 'maven-release';
     rtMaven.deployer server: artServer, releaseRepo: 'app-stages-local', snapshotRepo: 'app-dev-local';
-    rtMaven.tool = 'maven';
+    //rtMaven.tool = 'maven';
     
     stage('pre-build'){
         git credentialsId: 'git-biancl', url: 'http://200.31.147.77/devops/ansible-maven-sample.git'
