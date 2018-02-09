@@ -32,7 +32,7 @@ node('maven') {
 
     stage('build'){
         rtMaven.deployer.deployArtifacts = true;
-        rtMaven.run pom: 'pom.xml', goals: 'clean install ', buildInfo;
+        rtMaven.run pom: 'pom.xml', goals: 'clean install ', buildInfo: buildInfo;
         buildInfo.env.capture = true;
         buildInfo.env.collect();
         
