@@ -16,6 +16,7 @@ node('maven') {
     
    stage('sonar') {
         withSonarQubeEnv('sonar'){
+            rtMaven.deployer.deployArtifacts = false;
             rtMaven.run pom: 'pom.xml', goals: 'sonar:sonar ';
         }
     }
@@ -23,6 +24,7 @@ node('maven') {
  
 
     stage('build'){
+        rtMaven.deployer.deployArtifacts = true;
         def buildInfo = rtMaven.run pom: 'pom.xml', goals: '-X clean install ';
         artServer.publishBuildInfo buildInfo;
     }
