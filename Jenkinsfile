@@ -41,12 +41,12 @@ node('maven') {
     stage('publish'){
         echo 'published...';
         
-        artServer.publishBuildInfo buildInfo;
+ //       artServer.publishBuildInfo buildInfo;
     }
     
     post {
         always {
-            echo 'publishe publishBuildInfo...';
+            echo 'publish publishBuildInfo...';
             artServer.publishBuildInfo buildInfo;
         }
     }
