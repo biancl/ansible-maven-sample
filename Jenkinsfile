@@ -16,7 +16,7 @@ node('maven') {
     
    stage('sonar') {
         withSonarQubeEnv('sonar'){
-            sh 'mvn org.sonarsource.scanner.maven:sonar-maven-plugin:3.2:sonar'
+            rtMaven.run pom: 'pom.xml', goals: 'sonar:sonar ';
         }
     }
  
