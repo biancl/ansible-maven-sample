@@ -35,7 +35,7 @@ node {
         rtMaven.run pom: 'pom.xml', goals: 'clean package install sonar:sonar -Dsonar.host.url=http://cwap.cfets.com:19000', buildInfo: buildInfo;
         buildInfo.env.capture = true;
         buildInfo.env.collect();
-        hygieiaDeployPublishStep applicationName: 'ansible-maven-sample', artifactDirectory: '/target', artifactGroup: 'com.cfets.devops', artifactName: '*.jar', artifactVersion: '0.0.7-SNAPSHOT', buildStatus: 'Success', environmentName: 'dev'
+        hygieiaDeployPublishStep applicationName: 'ansible-maven-sample', artifactDirectory: '*/target', artifactGroup: 'com.cfets.devops', artifactName: '*.war', artifactVersion: '0.0.7-SNAPSHOT', buildStatus: 'Success', environmentName: 'dev'
     }
     }catch(e){
         echo '执行错误 Error:'+e.toString();
