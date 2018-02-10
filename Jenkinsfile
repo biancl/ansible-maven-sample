@@ -38,7 +38,7 @@ node('maven') {
     }
     }catch(e){
         echo '执行错误 Error:'+e.toString();
-        error e.toString();
+        error e
     }finally{
         echo 'published...';
         artServer.publishBuildInfo buildInfo;
