@@ -10,6 +10,9 @@ node('maven') {
     rtMaven.deployer server: artServer, releaseRepo: 'app-stages-local', snapshotRepo: 'app-dev-local';
     rtMaven.tool = 'maven';
     env.JAVA_HOME = '/usr/lib/jvm/java-1.8.0';
+    
+    try{
+   
     stage('pre-build'){
         git credentialsId: 'git-biancl', url: 'http://200.31.147.77/devops/ansible-maven-sample.git'
     }
@@ -34,9 +37,9 @@ node('maven') {
     stage('build'){
         rtMaven.deployer.deployArtifacts = true;
         rtMaven.run pom: 'pom.xml', goals: 'clean install ', buildInfo: buildInfo;
+        hygieiaDeployPublishStep applicationName: 'ansible-maven-sample', artifactDirectory: '/home/jenkins_workspace/ansible-maven-sample/ansible-maven-sample/target', artifactGroup: 'com.cfets.devops', artifactName: '*.war', artifactVersion: '0.0.7-SNAPSHOT', buildStatus: 'Success', environmentName: 'dev'
         buildInfo.env.capture = true;
         buildInfo.env.collect();
-        
     }
     
     stage('publish'){
@@ -44,5 +47,14 @@ node('maven') {
         
         artServer.publishBuildInfo buildInfo;
     }
+    
+    }catch(e){
+        echo '执行错误 Error:'+e.toString();
+        throw e;
+    }finally{
+        echo 'published...';
+        artServer.publishBuildInfo buildInfo;
+    }
+
     
 }
