@@ -16,16 +16,16 @@ node('maven') {
         git credentialsId: 'git-biancl', url: 'http://200.31.147.77/devops/ansible-maven-sample.git'
     }
     
-//   stage('sonar') {
+   stage('sonar') {
        
-//        withSonarQubeEnv('sonar'){
-//            configFileProvider([configFile(fileId: 'mvn-settings', targetLocation: '.m2/settings.xml', variable: 'M2_SETTINGS')]) {
-//                sh 'mvn -gs ${M2_SETTINGS}  sonar:sonar -Dsonar.host.url=http://cwap.cfets.com:19000'
-//                echo 'sonar...';
-//            }
+        withSonarQubeEnv('sonar'){
+            configFileProvider([configFile(fileId: 'mvn-settings', targetLocation: '.m2/settings.xml', variable: 'M2_SETTINGS')]) {
+                sh 'mvn -gs ${M2_SETTINGS}  sonar:sonar -Dsonar.host.url=http://cwap.cfets.com:19000'
+                echo 'sonar...';
+            }
             
-//        }
-//    }
+        }
+    }
  
  
 
