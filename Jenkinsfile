@@ -1,10 +1,12 @@
 #!groovy
 
 node('maven') {
+    
     def artServer = Artifactory.server('artifactory');
     artServer.credentialsId='artifactory-admin-credential';
     def rtMaven = Artifactory.newMavenBuild();
     def buildInfo = Artifactory.newBuildInfo();
+    try{
     buildInfo.env.capture = true;
     rtMaven.resolver server: artServer, releaseRepo: 'maven-release', snapshotRepo: 'maven-release';
     rtMaven.deployer server: artServer, releaseRepo: 'app-stages-local', snapshotRepo: 'app-dev-local';
@@ -14,35 +16,33 @@ node('maven') {
         git credentialsId: 'git-biancl', url: 'http://200.31.147.77/devops/ansible-maven-sample.git'
     }
     
-   stage('sonar') {
+   //stage('sonar') {
        
-        withSonarQubeEnv('sonar'){
-            configFileProvider([configFile(fileId: 'mvn-settings', targetLocation: '.m2/settings.xml', variable: 'M2_SETTINGS')]) {
+       // withSonarQubeEnv('sonar'){
+       //     configFileProvider([configFile(fileId: 'mvn-settings', targetLocation: '.m2/settings.xml', variable: 'M2_SETTINGS')]) {
                 // some block
-                sh 'mvn -gs ${M2_SETTINGS}  sonar:sonar -Dsonar.host.url=http://cwap.cfets.com:19000'
-                echo 'sonar...';
-            }
+       //         sh 'mvn -gs ${M2_SETTINGS}  sonar:sonar -Dsonar.host.url=http://cwap.cfets.com:19000'
+       //         echo 'sonar...';
+      //      }
 
             //rtMaven.deployer.deployArtifacts = false;
             //rtMaven.run pom: 'pom.xml', goals: 'sonar:sonar';
            // sh 'mvn sonar:sonar -Dsonar.host.url=http://cwap.cfets.com:19000'
-        }
-    }
- 
- 
-
+       // }
+   // }
     stage('build'){
         rtMaven.deployer.deployArtifacts = true;
-        rtMaven.run pom: 'pom.xml', goals: 'clean install ', buildInfo: buildInfo;
+        rtMaven.run pom: 'pom.xml', goals: 'clean install sonar:sonar -Dsonar.host.url=http://cwap.cfets.com:19000', buildInfo: buildInfo;
         buildInfo.env.capture = true;
         buildInfo.env.collect();
-        
     }
-    
-    stage('publish'){
+    }catch(e){
+        echo '执行错误 Error:'+e.toString();
+        error e.toString();
+    }finally{
         echo 'published...';
-        
         artServer.publishBuildInfo buildInfo;
     }
+    
     
 }
