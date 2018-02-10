@@ -41,12 +41,6 @@ node('maven') {
         buildInfo.env.collect();
     }
     
-    stage('publish'){
-        echo 'published...';
-        
-        artServer.publishBuildInfo buildInfo;
-    }
-    
     }catch(e){
         echo '执行错误 Error:'+e.toString();
         throw e;
