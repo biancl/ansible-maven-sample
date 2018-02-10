@@ -29,7 +29,7 @@ node('maven') {
             //rtMaven.run pom: 'pom.xml', goals: 'sonar:sonar';
            // sh 'mvn sonar:sonar -Dsonar.host.url=http://cwap.cfets.com:19000'
        // }
-   // }
+    }
     stage('build'){
         rtMaven.deployer.deployArtifacts = true;
         rtMaven.run pom: 'pom.xml', goals: 'clean install', buildInfo: buildInfo;
