@@ -32,7 +32,7 @@ node('maven') {
     stage('build'){
         rtMaven.deployer.deployArtifacts = true;
         rtMaven.run pom: 'pom.xml', goals: 'clean install ', buildInfo: buildInfo;
-        hygieiaDeployPublishStep applicationName: 'ansible-maven-sample', artifactDirectory: '/tmp/workspace/devops-ansible-maven-sample/ansible-maven-sample/target', artifactGroup: 'com.cfets.devops', artifactName: '*.war', artifactVersion: '0.0.7-SNAPSHOT', buildStatus: 'Success', environmentName: 'dev'
+        hygieiaDeployPublishStep applicationName: 'openshift-ansible-maven-sample', artifactDirectory: '/tmp/workspace/devops-ansible-maven-sample/ansible-maven-sample/target', artifactGroup: 'com.cfets.devops', artifactName: '*.war', artifactVersion: '0.0.7-SNAPSHOT', buildStatus: 'Success', environmentName: 'dev-openshift'
         buildInfo.env.capture = true;
         buildInfo.env.collect();
     }
