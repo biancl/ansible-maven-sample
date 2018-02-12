@@ -59,7 +59,7 @@ node('maven') {
     
     parallel {
         stage ('Intergration Test') {
-            echo Intergration Test OK.'
+            echo 'Intergration Test OK.'
         }
         
         stage ('Functional Test') {
