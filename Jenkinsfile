@@ -21,6 +21,7 @@ node('maven') {
 //      withSonarQubeEnv('sonar'){
             configFileProvider([configFile(fileId: 'mvn-settings', targetLocation: '.m2/settings.xml', variable: 'M2_SETTINGS')]) {
                 sh 'echo `which java`'
+                sh 'echo $JAVA_HOME'
                 sh 'mvn -X -gs ${M2_SETTINGS}  sonar:sonar -Dsonar.host.url=http://cwap.cfets.com:19000'
                 echo 'sonar...';
             }
