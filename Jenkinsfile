@@ -16,7 +16,7 @@ node('maven') {
         git credentialsId: 'git-biancl', url: 'http://200.31.147.77/devops/ansible-maven-sample.git'
     }
     
-    parallel {
+    parallel UnitTest: {
         
         stage('Unit Test') {
             
@@ -25,7 +25,9 @@ node('maven') {
                 sh 'mvn -gs "$M2_SETTINGS" clean test'
                 hygieiaCodeQualityPublishStep checkstyleFilePattern: '**/*/checkstyle-result.xml', findbugsFilePattern: '**/*/Findbugs.xml', jacocoFilePattern: '**/*/jacoco.xml', junitFilePattern: '**/*/TEST-.*-test.xml', pmdFilePattern: '**/*/PMD.xml'
             }
-        }
+        } 
+        
+    }, SonarQubeScan: {
         
         stage('SonarQube Scan') {
             configFileProvider([configFile(fileId: 'mvn-settings', targetLocation: '.m2/settings.xml', variable: 'M2_SETTINGS')]) {
@@ -56,16 +58,17 @@ node('maven') {
     }
     
     
-    
-    parallel {
+    parallel ST: {
         stage ('Intergration Test') {
             echo 'Intergration Test OK.'
         }
+    }, FT: {
         
         stage ('Functional Test') {
             
             echo 'Functional Test OK.'
         }
+    }, SECT: {
         
         stage ('Security Test') {
             
