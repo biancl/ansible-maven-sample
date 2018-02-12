@@ -5,7 +5,7 @@ node('maven') {
     artServer.credentialsId='artifactory-admin-credential';
     def rtMaven = Artifactory.newMavenBuild();
     def buildInfo = Artifactory.newBuildInfo();
-    try{
+//    try{
     buildInfo.env.capture = true;
     rtMaven.resolver server: artServer, releaseRepo: 'maven-release', snapshotRepo: 'maven-release';
     rtMaven.deployer server: artServer, releaseRepo: 'app-stages-local', snapshotRepo: 'app-dev-local';
@@ -35,15 +35,16 @@ node('maven') {
         hygieiaDeployPublishStep applicationName: 'openshift-ansible-maven-sample', artifactDirectory: '/tmp/workspace/devops-ansible-maven-sample/ansible-maven-sample/target', artifactGroup: 'com.cfets.devops', artifactName: '*.war', artifactVersion: '0.0.7-SNAPSHOT', buildStatus: 'Success', environmentName: 'dev-openshift'
         buildInfo.env.capture = true;
         buildInfo.env.collect();
-    }
-    
-    }catch(e){
-        echo '执行错误 Error:'+e.toString();
-        throw e;
-    }finally{
-        echo 'published...';
         artServer.publishBuildInfo buildInfo;
     }
+    
+    // }catch(e){
+    //     echo '执行错误 Error:'+e.toString();
+    //     throw e;
+    // }finally{
+    //     echo 'published...';
+    //     artServer.publishBuildInfo buildInfo;
+    // }
 
     
 }
