@@ -1,6 +1,6 @@
 #!groovy
 
-node('maven-1') {
+node('maven') {
     
     
     def artServer = Artifactory.server('artifactory');
