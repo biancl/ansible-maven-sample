@@ -1,30 +1,26 @@
 #!groovy
 
-node('maven-1') {
+node('maven') {
     
     
+    def pom = readMavenPom file: 'pom.xml'
+    def version = pom.version;
+    def artifactId = pom.artifactId;
+    def groupId = pom.groupId;
     def artServer = Artifactory.server('artifactory');
     artServer.credentialsId='artifactory-admin-credential';
     def rtMaven = Artifactory.newMavenBuild();
     def buildInfo = Artifactory.newBuildInfo();
+
     
     buildInfo.env.capture = true;
     rtMaven.resolver server: artServer, releaseRepo: 'maven-release', snapshotRepo: 'maven-release';
     rtMaven.deployer server: artServer, releaseRepo: 'app-stages-local', snapshotRepo: 'app-dev-local';
     rtMaven.tool = 'maven';
     rtMaven.deployer.deployArtifacts = true;
-    
-    def pom;
-    def version;
-    def artifactId;
-    def groupId;
 
     stage('Check out'){
         git credentialsId: 'git-biancl', url: 'http://200.31.147.77/devops/ansible-maven-sample.git'
-        pom = readMavenPom file: 'pom.xml'
-        version = pom.version;
-        artifactId = pom.artifactId;
-        groupId = pom.groupId;
     }
     
     
