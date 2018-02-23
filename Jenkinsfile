@@ -17,9 +17,9 @@ node('maven') {
     rtMaven.tool = 'maven';
     rtMaven.deployer.deployArtifacts = true;
 
-    stage('Check out'){
-        git credentialsId: 'git-biancl', url: 'http://200.31.147.77/devops/ansible-maven-sample.git'
-    }
+    //stage('Check out'){
+     //   git credentialsId: 'git-biancl', url: 'http://200.31.147.77/devops/ansible-maven-sample.git'
+   // }
     
     stage('Unit Test') {
         
