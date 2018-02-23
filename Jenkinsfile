@@ -1,17 +1,10 @@
 #!groovy
 
 node('maven') {
-    
-    
-    def pom = readMavenPom file: 'pom.xml'
-    def version = pom.version;
-    def artifactId = pom.artifactId;
-    def groupId = pom.groupId;
     def artServer = Artifactory.server('artifactory');
     artServer.credentialsId='artifactory-admin-credential';
     def rtMaven = Artifactory.newMavenBuild();
     def buildInfo = Artifactory.newBuildInfo();
-
     
     buildInfo.env.capture = true;
     rtMaven.resolver server: artServer, releaseRepo: 'maven-release', snapshotRepo: 'maven-release';
@@ -22,7 +15,6 @@ node('maven') {
     stage('Check out'){
         git credentialsId: 'git-biancl', url: 'http://200.31.147.77/devops/ansible-maven-sample.git'
     }
-    
     
     stage('Unit Test') {
         
@@ -43,14 +35,24 @@ node('maven') {
         }
     }
         
+        
+        
     stage('build'){
+        
+        def pom = readMavenPom file: 'pom.xml'
+        def version = pom.version;
+        def artifactId = pom.artifactId;
+        def groupId = pom.groupId;
+        
         rtMaven.run pom: 'pom.xml', goals: 'clean install ', buildInfo: buildInfo;
+        
         hygieiaDeployPublishStep applicationName: '${JOB_NAME}', artifactDirectory: '${WORKSPACE}/ansible-maven-sample/target', artifactGroup: '${groupId}', artifactName: '*.war', artifactVersion: '${version}', buildStatus: 'Success', environmentName: 'dev-openshift'
     }
     
     stage('Publish build information') {
         artServer.publishBuildInfo buildInfo;
     }
+    
     
     parallel ST: {
         stage ('Intergration Test') {
@@ -69,5 +71,5 @@ node('maven') {
             echo 'Security Test OK.'
         }
     }
-
+    
 }
