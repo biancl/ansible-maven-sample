@@ -50,7 +50,7 @@ node('maven-1') {
     stage('build'){
         configFileProvider([configFile(fileId: 'mvn-settings', targetLocation: '.m2/settings.xml', variable: 'M2_SETTINGS')]){
             //rtMaven.run pom: 'pom.xml', goals: 'clean install ', buildInfo: buildInfo;
-            rtMaven.run pom: 'pom.xml', goals: 'clean install ';
+            sh 'mvn clean install'
         // hygieiaDeployPublishStep applicationName: '${JOB_NAME}', artifactDirectory: '${WORKSPACE}/ansible-maven-sample/target', artifactGroup: '${groupId}', artifactName: '*.war', artifactVersion: '${version}', buildStatus: 'Success', environmentName: 'dev-openshift'
         }
     }
