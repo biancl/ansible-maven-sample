@@ -11,7 +11,7 @@ node('maven') {
     buildInfo.env.capture = true;
     rtMaven.resolver server: artServer, releaseRepo: 'maven-release', snapshotRepo: 'maven-release';
     rtMaven.deployer server: artServer, releaseRepo: 'app-stages-local', snapshotRepo: 'app-dev-local';
-     rtMaven.tool = 'maven';
+   //  rtMaven.tool = 'maven';
     rtMaven.deployer.deployArtifacts = true;
     
     def pom;
