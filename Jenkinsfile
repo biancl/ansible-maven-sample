@@ -11,7 +11,7 @@ node('maven-1') {
     buildInfo.env.capture = true;
     rtMaven.resolver server: artServer, releaseRepo: 'maven-release', snapshotRepo: 'maven-release';
     rtMaven.deployer server: artServer, releaseRepo: 'app-stages-local', snapshotRepo: 'app-dev-local';
-    rtMaven.tool = 'maven';
+    // rtMaven.tool = 'maven';
     rtMaven.deployer.deployArtifacts = true;
     
     def pom;
@@ -44,13 +44,8 @@ node('maven-1') {
         
     stage('build'){
         
-      //      rtMaven.run pom: 'pom.xml', goals: 'clean install ', buildInfo: buildInfo;
-            
-        configFileProvider([configFile(fileId: 'mvn-settings', targetLocation: '.m2/settings.xml', variable: 'M2_SETTINGS')]){
-            rtMaven.opts= ' -gs "$M2_SETTINGS" '
             rtMaven.run pom: 'pom.xml', goals: 'clean install ', buildInfo: buildInfo;
-            //sh 'mvn -gs "$M2_SETTINGS" clean install'
-         
+            
         }
     }
     
