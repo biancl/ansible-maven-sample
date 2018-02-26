@@ -12,7 +12,7 @@ node('maven-1') {
     rtMaven.resolver server: artServer, releaseRepo: 'maven-release', snapshotRepo: 'maven-release';
     rtMaven.deployer server: artServer, releaseRepo: 'app-stages-local', snapshotRepo: 'app-dev-local';
    //  rtMaven.tool = 'maven';
-    rtMaven.deployer.deployArtifacts = true;
+    rtMaven.deployer.deployArtifacts = false;
     
     def pom;
     def version;
