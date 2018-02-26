@@ -46,7 +46,6 @@ node('maven-1') {
         
             rtMaven.run pom: 'pom.xml', goals: 'clean install ', buildInfo: buildInfo;
             
-        }
     }
     
     stage('Publish build information') {
