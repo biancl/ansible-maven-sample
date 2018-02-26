@@ -52,24 +52,20 @@ node('maven-1') {
             artServer.publishBuildInfo buildInfo;
     }
     
-    parallel ST: {
-        stage ('Intergration Test') {
-            echo 'Intergration Test OK.'
-            hygieiaDeployPublishStep applicationName: '${JOB_NAME}', artifactDirectory: '${WORKSPACE}/ansible-maven-sample/target', artifactGroup: '${groupId}', artifactName: '*.war', artifactVersion: '${version}', buildStatus: 'Success', environmentName: 'ST'
-        }
-    }, FT: {
+    stage ('Intergration Test') {
+        echo 'Intergration Test OK.'
+        hygieiaDeployPublishStep applicationName: '${JOB_NAME}', artifactDirectory: '${WORKSPACE}/ansible-maven-sample/target', artifactGroup: '${groupId}', artifactName: '*.war', artifactVersion: '${version}', buildStatus: 'Success', environmentName: 'ST'
+    }
+    
+    stage ('Functional Test') {
         
-        stage ('Functional Test') {
-            
-            echo 'Functional Test OK.'
-            hygieiaDeployPublishStep applicationName: '${JOB_NAME}', artifactDirectory: '${WORKSPACE}/ansible-maven-sample/target', artifactGroup: '${groupId}', artifactName: '*.war', artifactVersion: '${version}', buildStatus: 'Success', environmentName: 'FT'
-        }
-    }, SECT: {
-        
-        stage ('Security Test') {
-            hygieiaDeployPublishStep applicationName: '${JOB_NAME}', artifactDirectory: '${WORKSPACE}/ansible-maven-sample/target', artifactGroup: '${groupId}', artifactName: '*.war', artifactVersion: '${version}', buildStatus: 'Success', environmentName: 'SECT'
-            echo 'Security Test OK.'
-        }
+        echo 'Functional Test OK.'
+        hygieiaDeployPublishStep applicationName: '${JOB_NAME}', artifactDirectory: '${WORKSPACE}/ansible-maven-sample/target', artifactGroup: '${groupId}', artifactName: '*.war', artifactVersion: '${version}', buildStatus: 'Success', environmentName: 'FT'
+    }
+    
+    stage ('Security Test') {
+        hygieiaDeployPublishStep applicationName: '${JOB_NAME}', artifactDirectory: '${WORKSPACE}/ansible-maven-sample/target', artifactGroup: '${groupId}', artifactName: '*.war', artifactVersion: '${version}', buildStatus: 'Success', environmentName: 'SECT'
+        echo 'Security Test OK.'
     }
 
 }
