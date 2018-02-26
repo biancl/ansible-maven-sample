@@ -28,30 +28,30 @@ node('maven-1') {
     }
     
     
-   // stage('Unit Test') {
+    stage('Unit Test') {
         
-        //configFileProvider([configFile(fileId: 'mvn-settings', targetLocation: '.m2/settings.xml', variable: 'M2_SETTINGS')]) {
-       //     sh 'mvn -gs "$M2_SETTINGS" clean test'
-       //    hygieiaCodeQualityPublishStep checkstyleFilePattern: '**/*/checkstyle-result.xml', findbugsFilePattern: '**/*/Findbugs.xml', jacocoFilePattern: '**/*/jacoco.xml', junitFilePattern: '**/*/TEST-.*-test.xml', pmdFilePattern: '**/*/PMD.xml'
-      //  }
-  //  }
+        configFileProvider([configFile(fileId: 'mvn-settings', targetLocation: '.m2/settings.xml', variable: 'M2_SETTINGS')]) {
+            sh 'mvn -gs "$M2_SETTINGS" clean test'
+           hygieiaCodeQualityPublishStep checkstyleFilePattern: '**/*/checkstyle-result.xml', findbugsFilePattern: '**/*/Findbugs.xml', jacocoFilePattern: '**/*/jacoco.xml', junitFilePattern: '**/*/TEST-.*-test.xml', pmdFilePattern: '**/*/PMD.xml'
+        }
+    }
     
-   // stage('SonarQube Scan') {
-       // configFileProvider([configFile(fileId: 'mvn-settings', targetLocation: '.m2/settings.xml', variable: 'M2_SETTINGS')]) {
-       //     sh 'mvn -gs "$M2_SETTINGS" sonar:sonar -Dsonar.host.url=http://cwap.cfets.com:19000'
-      //  }
-   // }
+    stage('SonarQube Scan') {
+        configFileProvider([configFile(fileId: 'mvn-settings', targetLocation: '.m2/settings.xml', variable: 'M2_SETTINGS')]) {
+            sh 'mvn -gs "$M2_SETTINGS" sonar:sonar -Dsonar.host.url=http://cwap.cfets.com:19000'
+        }
+    }
         
     stage('build'){
         
-            rtMaven.run pom: 'pom.xml', goals: 'clean install ', buildInfo: buildInfo;
+      //      rtMaven.run pom: 'pom.xml', goals: 'clean install ', buildInfo: buildInfo;
             
-       // configFileProvider([configFile(fileId: 'mvn-settings', targetLocation: '.m2/settings.xml', variable: 'M2_SETTINGS')]){
-         //   rtMaven.opts= ' -gs "$M2_SETTINGS" '
-       //     rtMaven.run pom: 'pom.xml', goals: 'clean install ', buildInfo: buildInfo;
+        configFileProvider([configFile(fileId: 'mvn-settings', targetLocation: '.m2/settings.xml', variable: 'M2_SETTINGS')]){
+            rtMaven.opts= ' -gs "$M2_SETTINGS" '
+            rtMaven.run pom: 'pom.xml', goals: 'clean install ', buildInfo: buildInfo;
             //sh 'mvn -gs "$M2_SETTINGS" clean install'
-      //   hygieiaDeployPublishStep applicationName: '${JOB_NAME}', artifactDirectory: '${WORKSPACE}/ansible-maven-sample/target', artifactGroup: '${groupId}', artifactName: '*.war', artifactVersion: '${version}', buildStatus: 'Success', environmentName: 'dev-openshift'
-       // }
+         
+        }
     }
     
     stage('Publish build information') {
@@ -61,17 +61,19 @@ node('maven-1') {
     parallel ST: {
         stage ('Intergration Test') {
             echo 'Intergration Test OK.'
+            hygieiaDeployPublishStep applicationName: '${JOB_NAME}', artifactDirectory: '${WORKSPACE}/ansible-maven-sample/target', artifactGroup: '${groupId}', artifactName: '*.war', artifactVersion: '${version}', buildStatus: 'Success', environmentName: 'ST'
         }
     }, FT: {
         
         stage ('Functional Test') {
             
             echo 'Functional Test OK.'
+            hygieiaDeployPublishStep applicationName: '${JOB_NAME}', artifactDirectory: '${WORKSPACE}/ansible-maven-sample/target', artifactGroup: '${groupId}', artifactName: '*.war', artifactVersion: '${version}', buildStatus: 'Success', environmentName: 'FT'
         }
     }, SECT: {
         
         stage ('Security Test') {
-            
+            hygieiaDeployPublishStep applicationName: '${JOB_NAME}', artifactDirectory: '${WORKSPACE}/ansible-maven-sample/target', artifactGroup: '${groupId}', artifactName: '*.war', artifactVersion: '${version}', buildStatus: 'Success', environmentName: 'SECT'
             echo 'Security Test OK.'
         }
     }
