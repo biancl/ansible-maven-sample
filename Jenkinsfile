@@ -42,18 +42,21 @@ node('maven-1') {
             // some block
             sh 'mvn -gs "$M2_SETTINGS" sonar:sonar -Dsonar.host.url=http://cwap.cfets.com:19000'
             
-            hygieiaCodeQualityPublishStep checkstyleFilePattern: '**/*/checkstyle-result.xml', findbugsFilePattern: '**/*/Findbugs.xml', jacocoFilePattern: '**/*/jacoco.xml', junitFilePattern: '**/*/TEST-.*-test.xml', pmdFilePattern: '**/*/PMD.xml'
+            // hygieiaCodeQualityPublishStep checkstyleFilePattern: '**/*/checkstyle-result.xml', findbugsFilePattern: '**/*/Findbugs.xml', jacocoFilePattern: '**/*/jacoco.xml', junitFilePattern: '**/*/TEST-.*-test.xml', pmdFilePattern: '**/*/PMD.xml'
 
         }
     }
         
     stage('build'){
-        configFileProvider([configFile(fileId: 'mvn-settings', targetLocation: '.m2/settings.xml', variable: 'M2_SETTINGS')]){
-            rtMaven.opts= ' -gs "$M2_SETTINGS" '
+        
             rtMaven.run pom: 'pom.xml', goals: 'clean install ', buildInfo: buildInfo;
+            
+       // configFileProvider([configFile(fileId: 'mvn-settings', targetLocation: '.m2/settings.xml', variable: 'M2_SETTINGS')]){
+         //   rtMaven.opts= ' -gs "$M2_SETTINGS" '
+       //     rtMaven.run pom: 'pom.xml', goals: 'clean install ', buildInfo: buildInfo;
             //sh 'mvn -gs "$M2_SETTINGS" clean install'
-         hygieiaDeployPublishStep applicationName: '${JOB_NAME}', artifactDirectory: '${WORKSPACE}/ansible-maven-sample/target', artifactGroup: '${groupId}', artifactName: '*.war', artifactVersion: '${version}', buildStatus: 'Success', environmentName: 'dev-openshift'
-        }
+      //   hygieiaDeployPublishStep applicationName: '${JOB_NAME}', artifactDirectory: '${WORKSPACE}/ansible-maven-sample/target', artifactGroup: '${groupId}', artifactName: '*.war', artifactVersion: '${version}', buildStatus: 'Success', environmentName: 'dev-openshift'
+       // }
     }
     
     stage('Publish build information') {
