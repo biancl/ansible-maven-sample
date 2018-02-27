@@ -24,6 +24,10 @@ node('maven') {
         version = pom.version;
         artifactId = pom.artifactId;
         groupId = pom.groupId;
+        
+        echo 'verison=${version}'
+        echo 'artifactId=${artifactId}'
+        echo 'groupId=${groupId}'
     }
     
     
