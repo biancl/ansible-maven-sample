@@ -54,17 +54,17 @@ node('maven') {
     
     stage ('Intergration Test') {
         echo 'Intergration Test OK.'
-        hygieiaDeployPublishStep applicationName: '${JOB_NAME}', artifactDirectory: '/ansible-maven-sample/target', artifactGroup: '${groupId}', artifactName: '*.war', artifactVersion: '${version}', buildStatus: 'Success', environmentName: 'ST'
+        hygieiaDeployPublishStep applicationName: '${JOB_NAME}', artifactDirectory: './ansible-maven-sample/target', artifactGroup: '${groupId}', artifactName: '*.war', artifactVersion: '${version}', buildStatus: 'Success', environmentName: 'ST'
     }
     
     stage ('Functional Test') {
         
         echo 'Functional Test OK.'
-        hygieiaDeployPublishStep applicationName: '${JOB_NAME}', artifactDirectory: '${WORKSPACE}/ansible-maven-sample/target', artifactGroup: '${groupId}', artifactName: '*.war', artifactVersion: '${version}', buildStatus: 'Success', environmentName: 'FT'
+        hygieiaDeployPublishStep applicationName: '${JOB_NAME}', artifactDirectory: './ansible-maven-sample/target', artifactGroup: '${groupId}', artifactName: '*.war', artifactVersion: '${version}', buildStatus: 'Success', environmentName: 'FT'
     }
     
     stage ('Security Test') {
-        hygieiaDeployPublishStep applicationName: '${JOB_NAME}', artifactDirectory: '${WORKSPACE}/ansible-maven-sample/target', artifactGroup: '${groupId}', artifactName: '*.war', artifactVersion: '${version}', buildStatus: 'Success', environmentName: 'SECT'
+        hygieiaDeployPublishStep applicationName: '${JOB_NAME}', artifactDirectory: './ansible-maven-sample/target', artifactGroup: '${groupId}', artifactName: '*.war', artifactVersion: '${version}', buildStatus: 'Success', environmentName: 'SECT'
         echo 'Security Test OK.'
     }
 
