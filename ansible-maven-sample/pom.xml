@@ -5,14 +5,14 @@
 	<parent>
 		<artifactId>ansible-maven-sample-parent</artifactId>
 		<groupId>com.cfets.devops</groupId>
-		<version>0.0.8-SNAPSHOT</version>
+		<version>0.0.8</version>
 		<relativePath>..</relativePath>
 	</parent>
 
 	<artifactId>ansible-maven-sample</artifactId>
 	<packaging>war</packaging>
 
-	<name>ansible-maven-sample</name>
+	<name>ansible::maven::sample</name>
 	<description>Demo project for CFETS DevOps</description>
 
 	<scm>
