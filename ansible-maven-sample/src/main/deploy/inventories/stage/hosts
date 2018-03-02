@@ -16,4 +16,3 @@ app_server_port=8080
 java_opts="-Dfile.encoding=UTF-8 -Djava.awt.headless=true -Xss256M -Xms256M "
 
 [all:vars]
-ansible_password=admin123
