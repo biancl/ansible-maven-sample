@@ -13,13 +13,16 @@
   file:
     path: '{{tomcat.dir}}/webapps/{{war.context}}'
     state: directory
+- name: test
+  command: echo $(pwd)
+  var: echo_result
+- debug: 
+    var: echo_result
 - name: extract '{{war.context}}.war'
   unarchive:
     remote_src: yes
     src: "./installers/{{war.name}}-{{app_version}}.war"
     dest: '{{tomcat.dir}}/webapps/{{war.context}}'
-- name: debug
-  command: echo $(pwd)
 - name: Generate the config files
   template:
     src: application.properties.j2
