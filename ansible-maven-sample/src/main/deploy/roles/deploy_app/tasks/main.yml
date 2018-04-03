@@ -14,7 +14,7 @@
     path: '{{tomcat.dir}}/webapps/{{war.context}}'
     state: directory
 - name: test
-  command: echo $(pwd)
+  command: pwd
   register: echo_result
 - debug: 
     var: echo_result
