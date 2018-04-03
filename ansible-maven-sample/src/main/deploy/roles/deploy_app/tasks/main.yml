@@ -15,7 +15,7 @@
     state: directory
 - name: test
   command: echo $(pwd)
-  var: echo_result
+  register: echo_result
 - debug: 
     var: echo_result
 - name: extract '{{war.context}}.war'
