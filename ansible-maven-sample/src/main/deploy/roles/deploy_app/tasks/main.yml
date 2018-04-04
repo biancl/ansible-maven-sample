@@ -11,7 +11,7 @@
     validate_certs: no
 - name: create '{{tomcat.dir}}/webapps/{{war.context}}/'
   file:
-    path: '{{tomcat.dir}}/webapps/{{war.context}}'
+    path: '{{tomcat.dir}}/webapps/test'
     state: directory
     mode: 0755
 - name: test2
@@ -22,8 +22,8 @@
 - name: extract '{{war.context}}.war'
   unarchive:
     remote_src: yes
-    src: "./installers/{{war.name}}-{{app_version}}.war"
-    dest: './tomcat/webapps/{{war.context}}'
+    src: "{{artifactory.repo}}/{{war.path}}/{{war.name}}/{{app_version}}/{{war.name}}-{{app_version}}.war"
+    dest: './tomcat/webapps/test'
 - name: Generate the config files
   template:
     src: application.properties.j2
