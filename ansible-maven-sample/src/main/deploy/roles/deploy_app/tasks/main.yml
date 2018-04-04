@@ -14,7 +14,7 @@
     path: '{{tomcat.dir}}/webapps/{{war.context}}'
     state: directory
     mode: 0755
-- name: test
+- name: test2
   command: pwd && id
   register: echo_result
 - debug: 
