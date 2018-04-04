@@ -15,7 +15,7 @@
     state: directory
     mode: 0755
 - name: test
-  command: pwd
+  command: pwd && id
   register: echo_result
 - debug: 
     var: echo_result
