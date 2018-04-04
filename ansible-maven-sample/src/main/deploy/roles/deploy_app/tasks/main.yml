@@ -23,7 +23,7 @@
   unarchive:
     remote_src: yes
     src: "./installers/{{war.name}}-{{app_version}}.war"
-    dest: '{{tomcat.dir}}/webapps/{{war.context}}'
+    dest: './tomcat/webapps/{{war.context}}'
 - name: Generate the config files
   template:
     src: application.properties.j2
