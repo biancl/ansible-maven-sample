@@ -13,6 +13,7 @@
   file:
     path: '{{tomcat.dir}}/webapps/{{war.context}}'
     state: directory
+    mode: 0755
 - name: test
   command: pwd
   register: echo_result
