@@ -13,17 +13,11 @@
   file:
     path: '{{tomcat.dir}}/webapps/{{war.context}}'
     state: directory
-    mode: 0755
-- name: test2
-  command: pwd && id
-  register: echo_result
-- debug: 
-    var: echo_result
 - name: extract '{{war.context}}.war'
   unarchive:
     remote_src: yes
-    src: "{{artifactory.repo}}/{{war.path}}/{{war.name}}/{{app_version}}/{{war.name}}-{{app_version}}.war"
-    dest: './tomcat/webapps/{{war.context}}'
+    src: "./installers/{{war.name}}-{{app_version}}.war"
+    dest: '{{tomcat.dir}}/webapps/{{war.context}}'
 - name: Generate the config files
   template:
     src: application.properties.j2
