@@ -42,7 +42,6 @@ node ('master') {
             // some block
             ansiblePlaybook extras: 'database_password=' + ${env.database_password}, installation: 'ansible', inventory: 'inventories/stage/hosts', playbook: 'proxy_server.yml'
 
-
         }
 
     }
