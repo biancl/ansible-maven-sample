@@ -9,7 +9,7 @@ node ('master') {
     stage 'Build'
     def rtMaven = Artifactory.newMavenBuild()
     rtMaven.resolver server: artServer, releaseRepo: 'libs-release', snapshotRepo: 'libs-snapshot'
-    rtMaven.deployer server: artServer, releaseRepo: 'libs-snapshot-local', snapshotRepo: 'libs-snapshot-local'
+    rtMaven.deployer server: artServer, releaseRepo: 'libs-release-local', snapshotRepo: 'libs-snapshot-local'
     rtMaven.tool = 'maven'
     rtMaven.run pom: 'pom.xml', goals: 'clean install', buildInfo: buildInfo
 
@@ -41,7 +41,6 @@ node ('master') {
             echo 'Deploy to ' + ${params.deploy_env}
             // some block
             ansiblePlaybook extras: 'database_password=' + ${env.database_password}, installation: 'ansible', inventory: 'inventories/stage/hosts', playbook: 'proxy_server.yml'
-
 
         }
 
