@@ -10,7 +10,7 @@
 
 	<groupId>com.cfets.devops</groupId>
 	<artifactId>ansible-maven-sample-parent</artifactId>
-	<version>0.0.14-SNAPSHOT</version>
+	<version>0.0.14</version>
 	<packaging>pom</packaging>
 
 	<name>ansible::maven::sample::parent</name>
