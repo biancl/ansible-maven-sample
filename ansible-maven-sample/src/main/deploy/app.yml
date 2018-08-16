@@ -10,5 +10,6 @@
       confirm: no
   roles:
     - stop_tomcat
+    - download_artifactory_files
     - deploy_app
     - start_tomcat

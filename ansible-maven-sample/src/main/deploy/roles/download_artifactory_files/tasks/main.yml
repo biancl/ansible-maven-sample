@@ -1,0 +1,16 @@
+- name: get app md5
+    uri:
+      url: "{{app_download_url}}.md5"
+      return_content: yes
+      validate_certs: no
+    register: app_md5
+  - debug:
+      var: app_md5
+  - name: download app file
+    get_url:
+      url: "{{app_download_url}}"
+      dest: "{{app_install_home}}"
+      url_username: "{{atf_username}}"
+      url_password: "{{art_password}}"
+      checksum: "md5:{{app_md5.content}}"
+      validate_certs: no

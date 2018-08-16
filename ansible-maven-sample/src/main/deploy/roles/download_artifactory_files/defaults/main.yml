@@ -1,0 +1,4 @@
+app_download_url: http://172.17.197.192:8081/artifactory/app-statges-local/com/cfets/devops/ansible-maven-sample/0.0.11/ansible-maven-sample-0.0.11.war
+app_install_home: /tmp
+atf_username: test
+art_password: test
