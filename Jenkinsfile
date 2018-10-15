@@ -18,6 +18,38 @@ node('maven') {
     def artifactId;
     def groupId;
 
+    properties([
+            gitLabConnection('gitlab-cfets'),
+            pipelineTriggers([
+                    [
+                            $class: 'GitLabPushTrigger',
+                            branchFilterType: 'All',
+                            triggerOnPush: true,
+                            triggerOnMergeRequest: true,
+                            triggerOpenMergeRequestOnPush: "never",
+                            triggerOnNoteRequest: true,
+                            noteRegex: "Jenkins please retry a build",
+                            skipWorkInProgressMergeRequest: true,
+                            secretToken: gitlabProjectToken,
+                            ciSkip: false,
+                            setBuildDescription: true,
+                            addNoteOnMergeRequest: true,
+                            addCiMessage: true,
+                            addVoteOnMergeRequest: true,
+                            acceptMergeRequestOnSuccess: false,
+                    ]
+            ])
+    ])
+
+    def needPublishArtifacts = false
+    if ("$BRANCH_NAME" == "master" || "$BRANCH_NAME" == "develop" || "$BRANCH_NAME".startsWith("release-")) {
+        needPublishArtifacts = true
+    } else {
+        needPublishArtifacts = false
+    }
+
+
+
     stage('Check out'){
         git credentialsId: 'git-biancl', url: 'http://200.31.147.77/devops/ansible-maven-sample.git'
         pom = readMavenPom file: 'pom.xml'
@@ -52,9 +84,6 @@ node('maven') {
             
     }
     
-    stage('Publish build information') {
-            artServer.publishBuildInfo buildInfo;
-    }
     
     stage ('Intergration Test') {
         echo 'Intergration Test OK.'
@@ -71,5 +100,18 @@ node('maven') {
         hygieiaDeployPublishStep applicationName: '${JOB_NAME}', artifactDirectory: './ansible-maven-sample/target', artifactGroup: "${groupId}", artifactName: '*.war', artifactVersion: "${version}", buildStatus: 'Success', environmentName: 'SECT'
         echo 'Security Test OK.'
     }
+
+    if (needPublishArtifacts == true) {
+            stage ('Publish artifacts') {
+                gitlabCommitStatus("Publish artifacts") {
+                    buildInfo.env.capture = true
+                    buildInfo.env.filter.addExclude("*PASS*")
+                    buildInfo.env.filter.addExclude("*pass*")
+                    buildInfo.env.collect()
+                    rtMaven.deployer.deployArtifacts buildInfo
+                    artServer.publishBuildInfo buildInfo
+                }
+            }
+        }
 
 }
