@@ -4,13 +4,14 @@ node('maven') {
     
 
     def artServer = Artifactory.server('artifactory');
-    artServer.credentialsId='artifactory-admin-credential';
+    artServer.credentialsId='GLOBAL-ARTIFACTORY';
     def rtMaven = Artifactory.newMavenBuild();
     def buildInfo = Artifactory.newBuildInfo();
     
     buildInfo.env.capture = true;
+    rtMaven.tool = 'maven';
     rtMaven.resolver server: artServer, releaseRepo: 'maven-release', snapshotRepo: 'maven-release';
-    rtMaven.deployer server: artServer, releaseRepo: 'app-stages-local', snapshotRepo: 'app-dev-local';
+    rtMaven.deployer server: artServer, releaseRepo: 'app-dev-local', snapshotRepo: 'app-dev-local';
     rtMaven.deployer.deployArtifacts = true;
     
     def pom;
@@ -64,10 +65,8 @@ node('maven') {
     
     stage('Unit Test') {
         
-        configFileProvider([configFile(fileId: 'mvn-settings', targetLocation: '.m2/settings.xml', variable: 'M2_SETTINGS')]) {
-            sh 'mvn -gs "$M2_SETTINGS" clean test'
-           hygieiaCodeQualityPublishStep checkstyleFilePattern: '**/*/checkstyle-result.xml', findbugsFilePattern: '**/*/Findbugs.xml', jacocoFilePattern: '**/*/jacoco.xml', junitFilePattern: '**/*/TEST-.*-test.xml', pmdFilePattern: '**/*/PMD.xml'
-        }
+        rtMaven.run pom: 'pom.xml', goals: 'clean test ', buildInfo: buildInfo;
+        
     }
     
     stage('SonarQube Scan') {
