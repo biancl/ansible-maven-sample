@@ -30,7 +30,6 @@ node('maven') {
                             triggerOnNoteRequest: true,
                             noteRegex: "Jenkins please retry a build",
                             skipWorkInProgressMergeRequest: true,
-                            secretToken: gitlabProjectToken,
                             ciSkip: false,
                             setBuildDescription: true,
                             addNoteOnMergeRequest: true,
