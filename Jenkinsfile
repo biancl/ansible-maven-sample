@@ -2,9 +2,7 @@
 
 node('maven') {
     
-    properties([gitLabConnection('gitlab-cfets'), [$class: 'GitlabLogoProperty', repositoryName: ''], [$class: 'RebuildSettings', autoRebuild: false, rebuildDisabled: false]])
 
-    
     def artServer = Artifactory.server('artifactory');
     artServer.credentialsId='artifactory-admin-credential';
     def rtMaven = Artifactory.newMavenBuild();
