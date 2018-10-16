@@ -70,10 +70,7 @@ node('maven') {
     }
     
     stage('SonarQube Scan') {
-        configFileProvider([configFile(fileId: 'mvn-settings', targetLocation: '.m2/settings.xml', variable: 'M2_SETTINGS')]) {
-            sh 'mvn -gs "$M2_SETTINGS" clean org.jacoco:jacoco-maven-plugin:prepare-agent install'
-            sh 'mvn -gs "$M2_SETTINGS" sonar:sonar -Dsonar.host.url=http://cwap.cfets.com:19000'
-        }
+        rtMaven.run pom:pom.xml, goals: '-Dsonar.host.url=$SONAR_HOST_URL package',buildInfo:buildInfo;
     }
         
     stage('build'){
@@ -85,17 +82,13 @@ node('maven') {
     
     stage ('Intergration Test') {
         echo 'Intergration Test OK.'
-        hygieiaDeployPublishStep applicationName: '${JOB_NAME}', artifactDirectory: './ansible-maven-sample/target', artifactGroup: "${groupId}", artifactName: '*.war', artifactVersion: "${version}", buildStatus: 'Success', environmentName: 'ST'
     }
     
     stage ('Functional Test') {
-        
         echo 'Functional Test OK.'
-        hygieiaDeployPublishStep applicationName: '${JOB_NAME}', artifactDirectory: './ansible-maven-sample/target', artifactGroup: "${groupId}", artifactName: '*.war', artifactVersion: "${version}", buildStatus: 'Success', environmentName: 'FT'
     }
     
     stage ('Security Test') {
-        hygieiaDeployPublishStep applicationName: '${JOB_NAME}', artifactDirectory: './ansible-maven-sample/target', artifactGroup: "${groupId}", artifactName: '*.war', artifactVersion: "${version}", buildStatus: 'Success', environmentName: 'SECT'
         echo 'Security Test OK.'
     }
 
