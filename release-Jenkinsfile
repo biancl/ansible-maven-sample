@@ -63,7 +63,7 @@ node('maven') {
     
     stage('release'){
         def descriptor = Artifactory.mavenDescriptor();
-        descriptor.version=$version.replace("-SNAPSHOT","");
+        descriptor.version="$version".replace("-SNAPSHOT","");
         descriptor.failOnSnapshot = true;
         descriptor.transform();
     }
