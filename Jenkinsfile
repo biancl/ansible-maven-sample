@@ -70,7 +70,7 @@ node('maven') {
     }
     
     stage('SonarQube Scan') {
-        rtMaven.run pom:pom.xml, goals: '-Dsonar.host.url=$SONAR_HOST_URL package',buildInfo:buildInfo;
+        rtMaven.run pom:'pom.xml', goals: '-Dsonar.host.url=$SONAR_HOST_URL package',buildInfo: buildInfo;
     }
         
     stage('build'){
