@@ -63,21 +63,21 @@ node('maven') {
     }
     
     
-    stage('Unit Test') {
+    // stage('Unit Test') {
         
-        rtMaven.run pom: 'pom.xml', goals: 'clean test ', buildInfo: buildInfo;
+    //     rtMaven.run pom: 'pom.xml', goals: 'clean test ', buildInfo: buildInfo;
         
-    }
+    // }
     
     stage('SonarQube Scan') {
         rtMaven.run pom:'pom.xml', goals: '-Dsonar.host.url=$SONAR_HOST_URL package',buildInfo: buildInfo;
     }
         
-    stage('build'){
+    // stage('build'){
         
-            rtMaven.run pom: 'pom.xml', goals: 'clean install ', buildInfo: buildInfo;
+    //         rtMaven.run pom: 'pom.xml', goals: 'clean install ', buildInfo: buildInfo;
             
-    }
+    // }
     
     
     stage ('Intergration Test') {
