@@ -11,6 +11,7 @@ public class AnsibleHelloWorldApplicationTests {
 
 	@Test
 	public void contextLoads() {
+	    System.out.println("********************************junit Test");
 	}
 
 }

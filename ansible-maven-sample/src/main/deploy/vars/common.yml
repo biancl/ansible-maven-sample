@@ -1,6 +1,6 @@
 
 artifactory:
-  repo: http://172.19.223.15:8081/artifactory/libs-release
+  repo: http://172.17.197.192:8081/artifactory/app-statges-local/
 
 app:
   installer_dir: ./installers
@@ -8,9 +8,9 @@ app:
 tomcat:
   install_dir: .
   dir: ./tomcat
-  version: 8.5.23
+  version: 8.5.28
   java_opts: "-Dfile.encoding=UTF-8 -Djava.awt.headless=true -Xss256M -Xms512M "
-  base_url: http://172.19.223.15:8081/artifactory/softwares/apache-tomcat
+  base_url: http://172.17.197.192:8081/artifactory/software/tomcat
 
 nginx:
   worker_processes: 4

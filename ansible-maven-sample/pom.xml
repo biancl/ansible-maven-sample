@@ -3,16 +3,16 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
-		<artifactId>ansible-hello-world-parent</artifactId>
+		<artifactId>ansible-maven-sample-parent</artifactId>
 		<groupId>com.cfets.devops</groupId>
-		<version>0.0.7-SNAPSHOT</version>
+		<version>0.0.31-SNAPSHOT</version>
 		<relativePath>..</relativePath>
 	</parent>
 
 	<artifactId>ansible-maven-sample</artifactId>
 	<packaging>war</packaging>
 
-	<name>ansible-maven-sample</name>
+	<name>ansible::maven::sample</name>
 	<description>Demo project for CFETS DevOps</description>
 
 	<scm>
@@ -38,16 +38,6 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-jdbc</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>mysql</groupId>
-			<artifactId>mysql-connector-java</artifactId>
 		</dependency>
 
 		<dependency>
@@ -97,21 +87,44 @@
 				<artifactId>maven-release-plugin</artifactId>
 				<version>2.5.3</version>
 			</plugin>
+			
+			<plugin>
+				<groupId>org.sonarsource.scanner.maven</groupId>
+				<artifactId>sonar-maven-plugin</artifactId>
+				<version>3.3.0.603</version>
+			</plugin>
+
 		</plugins>
 
 	</build>
-
-	<distributionManagement>
-		<repository>
-			<id>releases</id>
-			<name>DTAGCIR02-releases</name>
-			<url>http://172.19.223.15:8081/artifactory/libs-release-local</url>
-		</repository>
-		<snapshotRepository>
-			<id>snapshots</id>
-			<name>DTAGCIR02-snapshots</name>
-			<url>http://172.19.223.15:8081/artifactory/libs-snapshot-local</url>
-		</snapshotRepository>
-	</distributionManagement>
+	
+    <repositories>
+	<repository>
+			<id>devops-maven</id>
+			<name>devops-maven</name>
+			<url>http://172.17.197.192:8081/artifactory/maven-release</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+	</repository>
+</repositories>
+	
+	<profiles>
+	    <profile>
+	        <id>sonar</id>
+	        <activation>
+	            <activeByDefault>true</activeByDefault>
+	        </activation>
+	        <properties>
+	            <sonar.host.url>
+	                http://cwap.cfets.com:19000
+	            </sonar.host.url>
+	        </properties>
+	    </profile>
+	    
+	</profiles>
 
 </project>

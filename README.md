@@ -1,0 +1,1 @@
+ansible maven示例项目，测试使用，测试delete workspace作用
