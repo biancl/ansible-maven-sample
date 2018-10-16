@@ -72,37 +72,6 @@ node('maven') {
     stage('SonarQube Scan') {
         rtMaven.run pom:'pom.xml', goals: '-Dsonar.host.url=$SONAR_HOST_URL package',buildInfo: buildInfo;
     }
-        
-    // stage('build'){
-        
-    //         rtMaven.run pom: 'pom.xml', goals: 'clean install ', buildInfo: buildInfo;
-            
-    // }
-    
-    
-    stage ('Intergration Test') {
-        echo 'Intergration Test OK.'
-    }
-    
-    stage ('Functional Test') {
-        echo 'Functional Test OK.'
-    }
-    
-    stage ('Security Test') {
-        echo 'Security Test OK.'
-    }
-
-    if (needPublishArtifacts == true) {
-            stage ('Publish artifacts') {
-                gitlabCommitStatus("Publish artifacts") {
-                    buildInfo.env.capture = true
-                    buildInfo.env.filter.addExclude("*PASS*")
-                    buildInfo.env.filter.addExclude("*pass*")
-                    buildInfo.env.collect()
-                    rtMaven.deployer.deployArtifacts buildInfo
-                    artServer.publishBuildInfo buildInfo
-                }
-            }
-        }
+ 
 
 }

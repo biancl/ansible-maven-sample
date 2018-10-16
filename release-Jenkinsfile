@@ -61,12 +61,28 @@ node('maven') {
         echo "groupId=$groupId"
     }
     
-    stage('release'){
+    stage('transform version to release'){
         def descriptor = Artifactory.mavenDescriptor();
         descriptor.version="$version".replace("-SNAPSHOT","");
         descriptor.failOnSnapshot = true;
         descriptor.transform();
     }
+
+    stage('SonarQube Scan') {
+        rtMaven.run pom:'pom.xml', goals: '-Dsonar.host.url=$SONAR_HOST_URL package',buildInfo: buildInfo;
+    }
+    
+    stage ('Publish artifacts') {
+                gitlabCommitStatus("Publish artifacts") {
+                    buildInfo.env.capture = true
+                    buildInfo.env.filter.addExclude("*PASS*")
+                    buildInfo.env.filter.addExclude("*pass*")
+                    buildInfo.env.collect()
+                    rtMaven.deployer.deployArtifacts buildInfo
+                    artServer.publishBuildInfo buildInfo
+                }
+            }
+
     
     
 }
