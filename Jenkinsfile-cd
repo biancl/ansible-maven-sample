@@ -27,8 +27,7 @@ node('ansible-master') {
             "files": [
                 {
                     "pattern": "app/com/cfets/devops/ansible-maven-sample/${env.version}/ansible-maven-sample-${env.version}-deploy.tar.gz",
-                    "flat": true,
-                    "target": "."
+                    "flat": true
                 }
             ]
         }"""
