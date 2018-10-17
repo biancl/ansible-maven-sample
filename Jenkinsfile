@@ -7,7 +7,7 @@ node('maven') {
     artServer.credentialsId='GLOBAL-ARTIFACTORY';
     def rtMaven = Artifactory.newMavenBuild();
     def buildInfo = Artifactory.newBuildInfo();
-    
+    rtMaven.deployer.artifactDeploymentPatterns.addInclude("*.war").addInclude("*.tar.gz").addInclude("*md5*");
     buildInfo.env.capture = true;
     rtMaven.tool = 'maven';
     rtMaven.resolver server: artServer, releaseRepo: 'maven-release', snapshotRepo: 'maven-release';
@@ -75,6 +75,7 @@ node('maven') {
     
     stage('SonarQube Scan') {
         rtMaven.run pom:'pom.xml', goals: '-Dsonar.host.url=$SONAR_HOST_URL package',buildInfo: buildInfo;
+        
         sh 'cd ./ansible-maven-sample/target && md5sum *.tar.gz *.war > ansible-maven-sample.md5.txt'
     }
 
@@ -84,7 +85,6 @@ node('maven') {
                     buildInfo.env.filter.addExclude("*PASS*")
                     buildInfo.env.filter.addExclude("*pass*")
                     buildInfo.env.collect()
-                    rtMaven.deployer.artifactDeploymentPatterns.addInclude("*.war").addInclude("*.tar.gz").addInclude("*md5*");
                     rtMaven.deployer.deployArtifacts buildInfo
                     artServer.publishBuildInfo buildInfo
                 }
