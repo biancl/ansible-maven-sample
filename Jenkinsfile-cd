@@ -19,6 +19,8 @@ node('ansible-master') {
         //     ]
         // }"""
 
+        echo "ATF_URL=$ATF_URL";
+        echo "version=$verison";
         def downloadSpec = """{
             "files": [
                 {
