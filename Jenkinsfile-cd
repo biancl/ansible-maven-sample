@@ -1,0 +1,37 @@
+#!groovy
+
+node('maven') {
+    
+
+    def artServer = Artifactory.newServer url: "${ATF_URL}" , credentialsId: 'GLOBAL-ARTIFACTORY';
+    
+    def version;
+    def artifactId;
+    def groupId;
+
+    stage('download artifacts'){
+        def downloadSpec = """{
+            "files": [
+                {
+                    "pattern": "app/com/cfets/devops/ansible-maven-sample/*",
+                    "build": "",
+                    "target": "" 
+                }
+            ]
+        }"""
+    }
+    
+    stage ('Publish artifacts') {
+                gitlabCommitStatus("Publish artifacts") {
+                    buildInfo.env.capture = true
+                    buildInfo.env.filter.addExclude("*PASS*")
+                    buildInfo.env.filter.addExclude("*pass*")
+                    buildInfo.env.collect()
+                    rtMaven.deployer.deployArtifacts buildInfo
+                    artServer.publishBuildInfo buildInfo
+                }
+            }
+
+    
+    
+}
