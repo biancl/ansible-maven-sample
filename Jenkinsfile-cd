@@ -24,7 +24,9 @@ node('ansible-master') {
         def downloadSpec = """{
             "files": [
                 {
-                    "pattern": "app/com/cfets/devops/ansible-maven-sample/${params.version}/ansible-maven-sample-${params.version}-deploy.tar.gz"
+                    "pattern": "app/com/cfets/devops/ansible-maven-sample/${params.version}/ansible-maven-sample-${params.version}-deploy.tar.gz",
+                    "flat": true
+                    "target": "."
                 }
             ]
         }"""
