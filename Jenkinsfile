@@ -55,7 +55,7 @@ node('maven') {
 
     stage('Check out'){
 
-        git credentialsId: 'git-biancl', url: 'http://200.31.147.77/devops/ansible-maven-sample.git'
+        git branch: "$BRANCH_NAME", credentialsId: 'git-biancl', url: 'http://200.31.147.77/devops/ansible-maven-sample.git'
         pom = readMavenPom file: 'pom.xml'
         version = pom.version;
         artifactId = pom.artifactId;
