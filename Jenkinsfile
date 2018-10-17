@@ -95,7 +95,7 @@ node('maven') {
             "files": [
                 {
                     "pattern": "ansible-maven-sample/target/md5.txt",
-                    "target": "app-dev-local/com/cfets/devops/ansible-maven-sample/${env.version}/"
+                    "target": "app-dev-local/com/cfets/devops/ansible-maven-sample/$version/"
                 }
             ]
         }"""
