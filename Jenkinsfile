@@ -94,7 +94,7 @@ node('maven') {
         def uploadSpec = """{
             "files": [
                 {
-                    "pattern": "target/md5.txt",
+                    "pattern": "ansible-maven-sample/target/md5.txt",
                     "target": "app/com/cfets/devops/ansible-maven-sample/${env.version}/"
                 }
             ]
