@@ -42,7 +42,7 @@ node('maven') {
     ])
 
     def needPublishArtifacts = false
-    if ("$BRANCH_NAME" == "master" || "$BRANCH_NAME" == "develop" || "$BRANCH_NAME".startsWith("release-")) {
+    if ("$BRANCH_NAME" == "master" || "$BRANCH_NAME" == "develop" || "$BRANCH_NAME".startsWith("release-") || "$BRANCH_NAME" == "develop-biancl") {
         needPublishArtifacts = true
     } else {
         needPublishArtifacts = false
