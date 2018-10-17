@@ -71,7 +71,20 @@ node('maven') {
     
     stage('SonarQube Scan') {
         rtMaven.run pom:'pom.xml', goals: '-Dsonar.host.url=$SONAR_HOST_URL package',buildInfo: buildInfo;
+        sh 'cd ./ansible-maven-sample/target && md5sum *.tar.gz *.war > ansible-maven-sample.md5'
     }
+
+    stage ('Publish artifacts') {
+                gitlabCommitStatus("Publish artifacts") {
+                    buildInfo.env.capture = true
+                    buildInfo.env.filter.addExclude("*PASS*")
+                    buildInfo.env.filter.addExclude("*pass*")
+                    buildInfo.env.collect()
+                    rtMaven.deployer.artifactDeploymentPatterns.addInclude("*.war").addInclude("*.tar.gz").addInclude("*md5*");
+                    rtMaven.deployer.deployArtifacts buildInfo
+                    artServer.publishBuildInfo buildInfo
+                }
+            }
  
 
 }
