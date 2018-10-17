@@ -19,12 +19,12 @@ node('ansible-master') {
         //     ]
         // }"""
 
-        echo "ATF_URL=$ATF_URL";
-        echo "version=$verison";
+        echo "ATF_URL=${params.ATF_URL}";
+        echo "version=${params.verison}";
         def downloadSpec = """{
             "files": [
                 {
-                    "pattern": "app/com/cfets/devops/ansible-maven-sample/${version}/ansible-maven-sample-${version}-deploy.tar.gz"
+                    "pattern": "app/com/cfets/devops/ansible-maven-sample/${params.version}/ansible-maven-sample-${params.version}-deploy.tar.gz"
                 }
             ]
         }"""
@@ -34,7 +34,7 @@ node('ansible-master') {
     }
     
    stage('deploy'){
-        ansiblePlaybook colorized: true, credentialsId: 'ansible-slave', extras: '-e app_version="$verison" -e app_user_password="${app_user_password}"', inventory: 'ansible-maven-sample-${version}/deploy/inventories/stage/hosts', playbook: 'ansible-maven-sample-${version}/deploy/app.yml', sudoUser: null
+        ansiblePlaybook colorized: true, credentialsId: 'ansible-slave', extras: '-e app_version="${params.verison}" -e app_user_password="${params.app_user_password}"', inventory: 'ansible-maven-sample-${params.version}/deploy/inventories/stage/hosts', playbook: 'ansible-maven-sample-${params.version}/deploy/app.yml', sudoUser: null
    }
 
     
