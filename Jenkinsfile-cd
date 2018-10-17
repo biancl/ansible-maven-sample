@@ -3,7 +3,7 @@
 node('ansible-master') {
     
 
-    def artServer = Artifactory.newServer url: "${ATF_URL}" , credentialsId: 'GLOBAL-ARTIFACTORY';
+    def artServer = Artifactory.newServer url: '"$ATF_URL"', credentialsId: 'GLOBAL-ARTIFACTORY';
     
     def version;
     def artifactId;
