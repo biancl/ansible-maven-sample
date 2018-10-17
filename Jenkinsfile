@@ -61,6 +61,7 @@ node('maven') {
         artifactId = pom.artifactId;
         groupId = pom.groupId;
         
+        echo "verison=$BRANCH_NAME"
         echo "verison=${version}"
         echo "artifactId=$artifactId"
         echo "groupId=$groupId"
