@@ -1,6 +1,6 @@
 #!groovy
 
-node('maven') {
+node('ansible-master') {
     
 
     def artServer = Artifactory.newServer url: "${ATF_URL}" , credentialsId: 'GLOBAL-ARTIFACTORY';
@@ -14,23 +14,18 @@ node('maven') {
             "files": [
                 {
                     "pattern": "app/com/cfets/devops/ansible-maven-sample/*",
-                    "build": "",
-                    "target": "" 
+                    "build": "$build_name/$build_number",
                 }
             ]
         }"""
+        artServer.download(downloadSpec);
+        sh 'tar -zxvf *.tar.gz'
+
     }
     
-    stage ('Publish artifacts') {
-                gitlabCommitStatus("Publish artifacts") {
-                    buildInfo.env.capture = true
-                    buildInfo.env.filter.addExclude("*PASS*")
-                    buildInfo.env.filter.addExclude("*pass*")
-                    buildInfo.env.collect()
-                    rtMaven.deployer.deployArtifacts buildInfo
-                    artServer.publishBuildInfo buildInfo
-                }
-            }
+   stage('deploy'){
+        ansiblePlaybook colorized: true, credentialsId: 'ansible-slave', extras: '-e app_version="$verison" -e app_user_password="${app_user_password}"', inventory: 'ansible-maven-sample-${version}/deploy/inventories/stage/hosts', playbook: 'ansible-maven-sample-${version}/deploy/app.yml', sudoUser: null
+   }
 
     
     

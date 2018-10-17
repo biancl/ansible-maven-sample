@@ -81,12 +81,14 @@ node('maven') {
 
     stage ('Publish artifacts') {
                 gitlabCommitStatus("Publish artifacts") {
+                    echo "buildInfo.=$buildInfo."
                     buildInfo.env.capture = true
                     buildInfo.env.filter.addExclude("*PASS*")
                     buildInfo.env.filter.addExclude("*pass*")
+                    
                     buildInfo.env.collect()
                     rtMaven.deployer.deployArtifacts buildInfo
-                    artServer.publishBuildInfo buildInfo
+                    // artServer.publishBuildInfo buildInfo
                 }
             }
  
