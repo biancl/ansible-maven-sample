@@ -9,6 +9,10 @@ node('ansible-master') {
     def artifactId;
     def groupId;
 
+    stage('pre build'){
+        deleteDir();
+    }
+
     stage('download artifacts'){
         // def downloadSpec = """{
         //     "files": [
