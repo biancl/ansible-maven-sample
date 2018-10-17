@@ -3,18 +3,26 @@
 node('ansible-master') {
     
 
-    def artServer = Artifactory.newServer url: '"$ATF_URL"', credentialsId: 'GLOBAL-ARTIFACTORY';
+    def artServer = Artifactory.newServer url: "$ATF_URL", credentialsId: 'GLOBAL-ARTIFACTORY';
     
     def version;
     def artifactId;
     def groupId;
 
     stage('download artifacts'){
+        // def downloadSpec = """{
+        //     "files": [
+        //         {
+        //             "pattern": "app/com/cfets/devops/ansible-maven-sample/*",
+        //             "build": "$build_name/$build_number"
+        //         }
+        //     ]
+        // }"""
+
         def downloadSpec = """{
             "files": [
                 {
-                    "pattern": "app/com/cfets/devops/ansible-maven-sample/*",
-                    "build": "$build_name/$build_number",
+                    "pattern": "app/com/cfets/devops/ansible-maven-sample/$version/ansible-maven-sample-$version-deploy.tar.gz"
                 }
             ]
         }"""
