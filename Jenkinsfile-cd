@@ -26,12 +26,13 @@ node('ansible-master') {
         def downloadSpec = """{
             "files": [
                 {
-                    "pattern": "app/com/cfets/devops/ansible-maven-sample/${env.version}/ansible-maven-sample-${env.version}-deploy.tar.gz",
+                    "pattern": "app/com/cfets/devops/ansible-maven-sample/${env.version}/*",
                     "flat": true
                 }
             ]
         }"""
         artServer.download(downloadSpec);
+        sh 'md5sum -c md5.txt'
         sh 'tar -zxvf *.tar.gz'
 
     }
