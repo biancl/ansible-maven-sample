@@ -49,8 +49,12 @@ node('maven') {
     }
 
 
+    stage('pre build'){
+        deleteDir();
+    }
 
     stage('Check out'){
+
         git credentialsId: 'git-biancl', url: 'http://200.31.147.77/devops/ansible-maven-sample.git'
         pom = readMavenPom file: 'pom.xml'
         version = pom.version;
