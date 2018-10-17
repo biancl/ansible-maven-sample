@@ -1,36 +1,45 @@
 #!groovy
 
-node('maven') {
+node('ansible-master') {
     
 
-    def artServer = Artifactory.newServer url: "${ATF_URL}" , credentialsId: 'GLOBAL-ARTIFACTORY';
+    def artServer = Artifactory.newServer url: "$ATF_URL", credentialsId: 'GLOBAL-ARTIFACTORY';
     
     def version;
     def artifactId;
     def groupId;
 
+    
+
     stage('download artifacts'){
+        // def downloadSpec = """{
+        //     "files": [
+        //         {
+        //             "pattern": "app/com/cfets/devops/ansible-maven-sample/*",
+        //             "build": "$build_name/$build_number"
+        //         }
+        //     ]
+        // }"""
+
+        echo "ATF_URL=${ATF_URL}";
+        echo "version=${verison}";
         def downloadSpec = """{
             "files": [
                 {
-                    "pattern": "app/com/cfets/devops/ansible-maven-sample/*",
-                    "build": "",
-                    "target": "" 
+                    "pattern": "app/com/cfets/devops/ansible-maven-sample/${env.version}/*",
+                    "flat": true
                 }
             ]
         }"""
+        artServer.download(downloadSpec);
+        sh 'md5sum -c md5.txt'
+        sh 'tar -zxvf *.tar.gz'
+
     }
     
-    stage ('Publish artifacts') {
-                gitlabCommitStatus("Publish artifacts") {
-                    buildInfo.env.capture = true
-                    buildInfo.env.filter.addExclude("*PASS*")
-                    buildInfo.env.filter.addExclude("*pass*")
-                    buildInfo.env.collect()
-                    rtMaven.deployer.deployArtifacts buildInfo
-                    artServer.publishBuildInfo buildInfo
-                }
-            }
+   stage('deploy'){
+        ansiblePlaybook colorized: true, credentialsId: 'ansible-slave', extras: '-e app_version=${version} -e app_user_password=${app_user_password}', inventory: 'ansible-maven-sample-${version}/deploy/inventories/stage/hosts', playbook: 'ansible-maven-sample-${version}/deploy/app.yml', sudoUser: null
+   }
 
     
     
