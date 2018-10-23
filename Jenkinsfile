@@ -10,7 +10,6 @@ node('maven') {
     rtMaven.resolver server: artServer, releaseRepo: 'maven-release', snapshotRepo: 'maven-release';
     rtMaven.deployer.deployArtifacts = false;
 
-    def gitlabBuilds =  ['Checkout', 'Scan', 'Test', 'Build']
 
     properties([
             gitLabConnection('gitlab-cfets'),
@@ -38,7 +37,7 @@ node('maven') {
     //     deleteDir();
     // }
 
-    gitlabBuilds(builds:gitlabBuilds){
+    gitlabBuilds(builds: ['Checkout', 'Scan', 'Test', 'Build']){
 
     stage('Check out'){
         gitlabCommitStatus("Checkout") {
@@ -50,14 +49,13 @@ node('maven') {
     stage("SonarQube scan") {
         gitlabCommitStatus("scan") {
               withSonarQubeEnv('cfets-sonar') {
-                 rtMaven.run pom:'pom.xml', goals: 'clean org.jacoco:jacoco-maven-plugin:prepare-agent  compile  sonar:sonar',buildInfo: buildInfo;
-              }    
+                 rtMaven.run pom:'pom.xml', goals: 'clean org.jacoco:jacoco-maven-plugin:prepare-agent  compile  sonar:sonar'
       }
     }
 
     stage('Unit Test') {
         gitlabCommitStatus("test") {
-        rtMaven.run pom: 'pom.xml', goals: 'clean test ', buildInfo: buildInfo;
+        rtMaven.run pom: 'pom.xml', goals: 'clean test '
         }
     }
     stage("Quality Gate"){
