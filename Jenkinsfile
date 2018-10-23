@@ -51,6 +51,7 @@ node('maven') {
               withSonarQubeEnv('cfets-sonar') {
                  rtMaven.run pom:'pom.xml', goals: 'clean org.jacoco:jacoco-maven-plugin:prepare-agent  compile  sonar:sonar'
       }
+        }
     }
 
     stage('Unit Test') {
