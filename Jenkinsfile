@@ -37,7 +37,7 @@ node('maven') {
     //     deleteDir();
     // }
 
-    gitlabBuilds(builds: ['Checkout', 'Scan', 'Test', 'Build']){
+    gitlabBuilds(builds: ['Checkout', 'Scan', 'Test', 'Quality Gate']){
 
     stage('Check out'){
         gitlabCommitStatus("Checkout") {
@@ -60,7 +60,7 @@ node('maven') {
         }
     }
     stage("Quality Gate"){
-        gitlabCommitStatus("test") {
+        gitlabCommitStatus("QualityGate") {
           timeout(time: 1, unit: 'HOURS') {
               def qg = waitForQualityGate()
               if (qg.status != 'OK') {
