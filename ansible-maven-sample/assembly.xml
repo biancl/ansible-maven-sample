@@ -9,8 +9,10 @@
             <outputDirectory>deploy</outputDirectory>
         </fileSet>
     </fileSets>
-    <file>
-        <source>src/main/buildscripts/md5.txt</source>
-        <destName>md5.txt</destName>
-    </file>
+    <files>
+        <file>
+            <source>src/main/buildscripts/md5.txt</source>
+            <destName>md5.txt</destName>
+        </file>
+    </files>
 </assembly>
