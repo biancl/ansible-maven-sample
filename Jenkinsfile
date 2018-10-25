@@ -59,7 +59,12 @@ node('maven') {
         rtMaven.run pom: 'pom.xml', goals: 'clean test '
         }
     }
-    stage("Quality Gate"){
+      
+ }
+
+}
+
+stage("Quality Gate"){
         gitlabCommitStatus("Quality Gate") {
           timeout(time: 1, unit: 'HOURS') {
               def qg = waitForQualityGate()
@@ -68,7 +73,4 @@ node('maven') {
               }
           }
       }     
-    }   
- }
-
-}
+    } 

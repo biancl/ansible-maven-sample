@@ -1,13 +1,16 @@
 <assembly>
     <id>deploy</id>
     <formats>
-        <format>tar.gz</format>
+        <format>dir</format>
     </formats>
     <fileSets>
-
         <fileSet>
             <directory>src/main/deploy</directory>
             <outputDirectory>deploy</outputDirectory>
         </fileSet>
     </fileSets>
+    <file>
+        <source>src/main/buildscripts/md5.txt</source>
+        <destName>md5.txt</destName>
+    </file>
 </assembly>
