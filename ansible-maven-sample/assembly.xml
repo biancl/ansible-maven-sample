@@ -1,7 +1,7 @@
 <assembly>
     <id>deploy</id>
     <formats>
-        <format>dir</format>
+        <format>tar.gz</format>
     </formats>
     <fileSets>
         <fileSet>
