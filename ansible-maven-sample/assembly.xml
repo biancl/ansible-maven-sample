@@ -7,13 +7,13 @@
     <fileSets>
         <fileSet>
             <directory>src/main/deploy</directory>
-            <outputDirectory>deploy</outputDirectory>
+            <outputDirectory>${project.build.finalName}-deploy</outputDirectory>
         </fileSet>
     </fileSets>
     <files>
         <file>
             <source>md5.txt</source>
-            <destName>md5.txt</destName>
+            <destName>${project.build.finalName}-md5.txt</destName>
         </file>
     </files>
 </assembly>
