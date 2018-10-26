@@ -96,9 +96,9 @@
 						<configuration>
 							<artifacts>
 								<artifact>
-									<file>md5.txt</file>
-									<type>txt</type>
-									<classifier></classifier>
+									<file>assembly.xml</file>
+									<type>xml</type>
+									<classifier>test</classifier>
 								</artifact>
 							</artifacts>
 						</configuration>
