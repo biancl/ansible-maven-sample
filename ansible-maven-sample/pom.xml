@@ -96,7 +96,7 @@
 						<configuration>
 							<artifacts>
 								<artifact>
-									<file>${project.build.finalName}-md5.txt</file>
+									<file>md5.txt</file>
 									<type>txt</type>
 									<classifier></classifier>
 								</artifact>
