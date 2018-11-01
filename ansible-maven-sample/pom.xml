@@ -5,7 +5,7 @@
 	<parent>
 		<artifactId>ansible-maven-sample-parent</artifactId>
 		<groupId>com.cfets.devops</groupId>
-		<version>0.0.33-SNAPSHOT</version>
+		<version>0.0.34-SNAPSHOT</version>
 		<relativePath>..</relativePath>
 	</parent>
 
@@ -82,6 +82,55 @@
 				</executions>
 			</plugin>
 
+			<!-- <plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>build-helper-maven-plugin</artifactId>
+				<version>3.0.0</version>
+				<executions>
+					<execution>
+						<id>attach-artifact</id>
+						 <phase>pre-integration-test</phase> 
+						<phase>package</phase>
+						<goals>
+							<goal>attach-artifact</goal>
+						</goals>
+						<configuration>
+							<artifacts>
+								<artifact>
+									<file>assembly.xml</file>
+									<type>xml</type>
+									<classifier>test</classifier>
+								</artifact>
+							</artifacts>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin> -->
+
+			<plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+                <version>3.0.0</version>
+                <executions>
+                    <execution>
+                        <id>attach-artifacts</id>
+                        <phase>deploy</phase>
+                        <goals>
+                            <goal>attach-artifact</goal>
+                        </goals>
+                        <configuration>
+                            <artifacts>
+                                <artifact>
+                                    <file>assembly.xml</file>
+                                    <type>xml</type>
+                                    <classifier>optional</classifier>
+                                </artifact>
+                            </artifacts>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-release-plugin</artifactId>
@@ -93,6 +142,43 @@
 				<artifactId>sonar-maven-plugin</artifactId>
 				<version>3.3.0.603</version>
 			</plugin>
+
+			<plugin>
+              <artifactId>exec-maven-plugin</artifactId>
+              <groupId>org.codehaus.mojo</groupId>
+              <executions>
+                <execution><!-- Run our version calculation script -->
+                  <id>PreBuild script</id>
+                  <phase>generate-sources</phase>
+                  <goals>
+                    <goal>exec</goal>
+                  </goals>
+                  <configuration>
+                    <executable>${basedir}/src/main/buildscripts/prebuild.sh</executable>
+                  </configuration>
+                </execution>
+                <execution><!-- Run our version calculation script -->
+                  <id>PrePackage script</id>
+                  <phase>prepare-package</phase>
+                  <goals>
+                    <goal>exec</goal>
+                  </goals>
+                  <configuration>
+                    <executable>${basedir}/src/main/buildscripts/prepackage.sh</executable>
+                  </configuration>
+                </execution>
+                <execution><!-- Run our version calculation script -->
+                  <id>PostPackage script</id>
+                  <phase>pre-integration-test</phase>
+                  <goals>
+                    <goal>exec</goal>
+                  </goals>
+                  <configuration>
+                    <executable>${basedir}/src/main/buildscripts/postpackage.sh</executable>
+                  </configuration>
+                </execution>
+              </executions>
+            </plugin>
 
 		</plugins>
 

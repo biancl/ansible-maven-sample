@@ -83,6 +83,20 @@ node('maven') {
                 }
             }
 
+    stage ('Publish other artifacts') {
+        def uploadSpec = """{
+            "files": [
+                {
+                    "pattern": "ansible-maven-sample/target/md5.txt",
+                    "target": "app-dev-local/com/cfets/devops/ansible-maven-sample/$version/"
+                }
+            ]
+        }"""
+        def buildInfo2 = artServer.upload(uploadSpec);
+        buildInfo.append buildInfo2;
+        artServer.publishBuildInfo buildInfo;
+            }
+
     
     
 }
