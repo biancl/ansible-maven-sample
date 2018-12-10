@@ -1,8 +1,5 @@
-[proxy]
-172.17.197.195 ansible_connection=ssh ansible_user=admin ansible_become=true
-
 [app]
-172.17.197.195 ansible_connection=ssh ansible_user=admin ansible_become=true
+172.17.197.195 ansible_connection=ssh ansible_user=admin
 
 [all:children]
 proxy
