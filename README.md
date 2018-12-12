@@ -1,1 +1,7 @@
-ansible maven示例项目，测试使用，测试delete workspace作用
+# 示例项目1
+
+ansible-maven-sample
+
+- 通过maven，打出war包和ansible部署脚本包
+- jenkins pipeline 示例
+- gitlab模版: 参考.gitlab目录
