@@ -40,7 +40,24 @@ node('maven') {
         parameters([
             string(defaultValue: '', description: '代码仓库地址', name: 'REPOSITORY_URL'), 
             credentials(credentialType: 'com.cloudbees.plugins.credentials.common.StandardCredentials', defaultValue: '', description: '源码仓库认证', name: 'REPOSITORY_CREDENTIAL_ID', required: false)]), 
-            pipelineTriggers([<object of type com.dabsquared.gitlabjenkins.GitLabPushTrigger>])])
+            pipelineTriggers([
+                [
+                    $class: 'GitLabPushTrigger',
+                    branchFilterType: 'All',
+                    triggerOnPush: true,
+                    triggerOnMergeRequest: true,
+                    triggerOpenMergeRequestOnPush: "never",
+                    triggerOnNoteRequest: true,
+                    noteRegex: "Jenkins please retry a build",
+                    skipWorkInProgressMergeRequest: true,
+                    ciSkip: false,
+                    setBuildDescription: true,
+                    addNoteOnMergeRequest: true,
+                    addCiMessage: true,
+                    addVoteOnMergeRequest: true,
+                    acceptMergeRequestOnSuccess: false,
+                ]
+            ])])
 
     // stage('pre build'){
     //     deleteDir();
