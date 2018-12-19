@@ -20,10 +20,6 @@ node('maven') {
     //     string(defaultValue: 'http://200.31.147.77/devops/ansible-maven-sample.git', description: '代码仓库地址', name: 'REPOSITORY_URL'), 
     //     string(defaultValue: 'cfets-gitlab', description: 'gitlab连接，需在系统设置中配置', name: 'GITLAB_CONNECTION'), 
     //     string(defaultValue: 'cfets-sonar', description: 'sonar服务器连接，需在系统设置中配置', name: 'SONAR_SERVER')];
-properties([gitLabConnection('gitlab-cfets'),
- [$class: 'GitlabLogoProperty', repositoryName: ''],
-  [$class: 'RebuildSettings', autoRebuild: false, rebuildDisabled: false], 
-  pipelineTriggers([<object of type com.dabsquared.gitlabjenkins.GitLabPushTrigger>])])
     properties([
         gitLabConnection('$GITLAB_CONNECTION'), 
         [$class: 'GitlabLogoProperty', repositoryName: ''], 
