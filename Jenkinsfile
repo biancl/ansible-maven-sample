@@ -38,7 +38,7 @@ node('maven') {
         [$class: 'GitlabLogoProperty', repositoryName: ''], 
         [$class: 'RebuildSettings', autoRebuild: false, rebuildDisabled: false], 
         parameters([
-            string(defaultValue: '', description: '代码仓库地址', name: 'REPOSITORY_URL', defaultValue: 'http://200.31.147.77/devops/ansible-maven-sample.git'), 
+            string(defaultValue: 'http://200.31.147.77/devops/ansible-maven-sample.git', description: '代码仓库地址', name: 'REPOSITORY_URL'), 
             credentials(credentialType: 'com.cloudbees.plugins.credentials.common.StandardCredentials', defaultValue: '', description: '源码仓库认证', name: 'REPOSITORY_CREDENTIAL_ID', required: false)]), 
             pipelineTriggers([
                 [
