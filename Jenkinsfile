@@ -10,6 +10,11 @@ node('maven') {
     rtMaven.resolver server: artServer, releaseRepo: 'maven-release', snapshotRepo: 'maven-release';
     rtMaven.deployer.deployArtifacts = false;
 
+    input message: '请输入/选择构建参数', parameters: [
+        credentials(credentialType: 'com.cloudbees.plugins.credentials.common.StandardCredentials', defaultValue: 'git', description: '源码仓库认证', name: 'REPOSITORY_CREDENTIAL_ID', required: true), 
+        string(defaultValue: 'http://200.31.147.77/devops/ansible-maven-sample.git', description: '代码仓库地址', name: 'REPOSITORY_URL'), 
+        string(defaultValue: 'cfets-gitlab', description: 'gitlab连接，需在系统设置中配置', name: 'GITLAB_CONNECTION'), 
+        string(defaultValue: 'cfets-sonar', description: 'sonar服务器连接，需在系统设置中配置', name: 'SONAR_SERVER')];
 
     // properties([
     //         gitLabConnection('gitlab-cfets'),
@@ -34,7 +39,7 @@ node('maven') {
     // ])
 
     properties([
-        gitLabConnection('gitlab-cfets'), 
+        gitLabConnection('$GITLAB_CONNECTION'), 
         [$class: 'GitlabLogoProperty', repositoryName: ''], 
         [$class: 'RebuildSettings', autoRebuild: false, rebuildDisabled: false], 
         parameters([
@@ -63,9 +68,7 @@ node('maven') {
     //     deleteDir();
     // }
 
-    input message: '请输入/选择构建参数', parameters: [
-        credentials(credentialType: 'com.cloudbees.plugins.credentials.common.StandardCredentials', defaultValue: 'git', description: '源码仓库认证', name: 'REPOSITORY_CREDENTIAL_ID', required: true), 
-        string(defaultValue: 'http://200.31.147.77/devops/ansible-maven-sample.git', description: '代码仓库地址', name: 'REPOSITORY_URL')];
+    
 
     gitlabBuilds(builds: ['Checkout', 'Scan', 'Test', 'Quality Gate']){
 
@@ -79,9 +82,9 @@ node('maven') {
     
     stage("SonarQube scan") {
         gitlabCommitStatus("Scan") {
-              withSonarQubeEnv('cfets-sonar') {
+              withSonarQubeEnv('$SONAR_SERVER') {
                  rtMaven.run pom:'pom.xml', goals: 'clean org.jacoco:jacoco-maven-plugin:prepare-agent'
-                 rtMaven.run pom:'pom.xml', goals: 'compile  sonar:sonar'
+                //  rtMaven.run pom:'pom.xml', goals: 'compile  sonar:sonar'
       }
         }
     }
