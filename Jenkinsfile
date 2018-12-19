@@ -1,6 +1,11 @@
 #!groovy
 
 node('maven') {
+
+    def REPOSITORY_URL='http://200.31.147.77/devops/ansible-maven-sample.git';
+    def REPOSITORY_CREDENTIAL_ID='git';
+    def GITLAB_CONNECTION='cfets-gitlab';
+    def SONAR_SERVER='cfets-sonar';
     
 
     def artServer = Artifactory.server('artifactory');
@@ -17,12 +22,10 @@ node('maven') {
     //     string(defaultValue: 'cfets-sonar', description: 'sonar服务器连接，需在系统设置中配置', name: 'SONAR_SERVER')];
 
     properties([
-        gitLabConnection('cfets-gitlab'), 
+        gitLabConnection('$GITLAB_CONNECTION'), 
         [$class: 'GitlabLogoProperty', repositoryName: ''], 
         [$class: 'RebuildSettings', autoRebuild: false, rebuildDisabled: false], 
         parameters([
-            string(defaultValue: 'http://200.31.147.77/devops/ansible-maven-sample.git', description: '代码仓库地址', name: 'REPOSITORY_URL'), 
-            credentials(credentialType: 'com.cloudbees.plugins.credentials.common.StandardCredentials', defaultValue: 'git', description: '源码仓库认证', name: 'REPOSITORY_CREDENTIAL_ID', required: false)]), 
             pipelineTriggers([
                 [
                     $class: 'GitLabPushTrigger',
@@ -60,7 +63,7 @@ node('maven') {
     
     stage("SonarQube scan") {
         gitlabCommitStatus("Scan") {
-              withSonarQubeEnv('cfets-sonar') {
+              withSonarQubeEnv('$SONAR_SERVER') {
                 rtMaven.run pom:'pom.xml', goals: '-Dmaven.test.skip=true  compile  sonar:sonar'
       }
         }
