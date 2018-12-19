@@ -10,39 +10,14 @@ node('maven') {
     rtMaven.resolver server: artServer, releaseRepo: 'maven-release', snapshotRepo: 'maven-release';
     rtMaven.deployer.deployArtifacts = false;
 
-    input message: '请输入/选择构建参数', parameters: [
-        credentials(credentialType: 'com.cloudbees.plugins.credentials.common.StandardCredentials', defaultValue: 'git', description: '源码仓库认证', name: 'REPOSITORY_CREDENTIAL_ID', required: true), 
-        string(defaultValue: 'http://200.31.147.77/devops/ansible-maven-sample.git', description: '代码仓库地址', name: 'REPOSITORY_URL'), 
-        string(defaultValue: 'cfets-gitlab', description: 'gitlab连接，需在系统设置中配置', name: 'GITLAB_CONNECTION'), 
-        string(defaultValue: 'cfets-sonar', description: 'sonar服务器连接，需在系统设置中配置', name: 'SONAR_SERVER')];
-
-    // properties([
-    //         gitLabConnection('gitlab-cfets'),
-    //         pipelineTriggers([
-    //                 [
-    //                         $class: 'GitLabPushTrigger',
-    //                         branchFilterType: 'All',
-    //                         triggerOnPush: true,
-    //                         triggerOnMergeRequest: true,
-    //                         triggerOpenMergeRequestOnPush: "never",
-    //                         triggerOnNoteRequest: true,
-    //                         noteRegex: "Jenkins please retry a build",
-    //                         skipWorkInProgressMergeRequest: true,
-    //                         ciSkip: false,
-    //                         setBuildDescription: true,
-    //                         addNoteOnMergeRequest: true,
-    //                         addCiMessage: true,
-    //                         addVoteOnMergeRequest: true,
-    //                         acceptMergeRequestOnSuccess: false,
-    //                 ]
-    //         ])
-    // ])
-
-    echo "GITLAB_CONNECTION=$env.GITLAB_CONNECTION";
-    echo "SONAR_SERVER=$env.SONAR_SERVER";
+    // input message: '请输入/选择构建参数', parameters: [
+    //     credentials(credentialType: 'com.cloudbees.plugins.credentials.common.StandardCredentials', defaultValue: 'git', description: '源码仓库认证', name: 'REPOSITORY_CREDENTIAL_ID', required: true), 
+    //     string(defaultValue: 'http://200.31.147.77/devops/ansible-maven-sample.git', description: '代码仓库地址', name: 'REPOSITORY_URL'), 
+    //     string(defaultValue: 'cfets-gitlab', description: 'gitlab连接，需在系统设置中配置', name: 'GITLAB_CONNECTION'), 
+    //     string(defaultValue: 'cfets-sonar', description: 'sonar服务器连接，需在系统设置中配置', name: 'SONAR_SERVER')];
 
     properties([
-        gitLabConnection('$GITLAB_CONNECTION'), 
+        gitLabConnection('cfets-gitlab'), 
         [$class: 'GitlabLogoProperty', repositoryName: ''], 
         [$class: 'RebuildSettings', autoRebuild: false, rebuildDisabled: false], 
         parameters([
@@ -85,7 +60,7 @@ node('maven') {
     
     stage("SonarQube scan") {
         gitlabCommitStatus("Scan") {
-              withSonarQubeEnv('$SONAR_SERVER') {
+              withSonarQubeEnv('cfets-sonar') {
                  rtMaven.run pom:'pom.xml', goals: 'clean org.jacoco:jacoco-maven-plugin:prepare-agent'
                 //  rtMaven.run pom:'pom.xml', goals: 'compile  sonar:sonar'
       }
