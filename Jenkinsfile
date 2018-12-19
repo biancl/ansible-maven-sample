@@ -11,27 +11,36 @@ node('maven') {
     rtMaven.deployer.deployArtifacts = false;
 
 
+    // properties([
+    //         gitLabConnection('gitlab-cfets'),
+    //         pipelineTriggers([
+    //                 [
+    //                         $class: 'GitLabPushTrigger',
+    //                         branchFilterType: 'All',
+    //                         triggerOnPush: true,
+    //                         triggerOnMergeRequest: true,
+    //                         triggerOpenMergeRequestOnPush: "never",
+    //                         triggerOnNoteRequest: true,
+    //                         noteRegex: "Jenkins please retry a build",
+    //                         skipWorkInProgressMergeRequest: true,
+    //                         ciSkip: false,
+    //                         setBuildDescription: true,
+    //                         addNoteOnMergeRequest: true,
+    //                         addCiMessage: true,
+    //                         addVoteOnMergeRequest: true,
+    //                         acceptMergeRequestOnSuccess: false,
+    //                 ]
+    //         ])
+    // ])
+
     properties([
-            gitLabConnection('gitlab-cfets'),
-            pipelineTriggers([
-                    [
-                            $class: 'GitLabPushTrigger',
-                            branchFilterType: 'All',
-                            triggerOnPush: true,
-                            triggerOnMergeRequest: true,
-                            triggerOpenMergeRequestOnPush: "never",
-                            triggerOnNoteRequest: true,
-                            noteRegex: "Jenkins please retry a build",
-                            skipWorkInProgressMergeRequest: true,
-                            ciSkip: false,
-                            setBuildDescription: true,
-                            addNoteOnMergeRequest: true,
-                            addCiMessage: true,
-                            addVoteOnMergeRequest: true,
-                            acceptMergeRequestOnSuccess: false,
-                    ]
-            ])
-    ])
+        gitLabConnection('gitlab-cfets'), 
+        [$class: 'GitlabLogoProperty', repositoryName: ''], 
+        [$class: 'RebuildSettings', autoRebuild: false, rebuildDisabled: false], 
+        parameters([
+            string(defaultValue: '', description: '代码仓库地址', name: 'REPOSITORY_URL'), 
+            credentials(credentialType: 'com.cloudbees.plugins.credentials.common.StandardCredentials', defaultValue: '', description: '源码仓库认证', name: 'REPOSITORY_CREDENTIAL_ID', required: false)]), 
+            pipelineTriggers([<object of type com.dabsquared.gitlabjenkins.GitLabPushTrigger>])])
 
     // stage('pre build'){
     //     deleteDir();
@@ -66,11 +75,9 @@ node('maven') {
 
 stage("Quality Gate"){
         gitlabCommitStatus("Quality Gate") {
-          timeout(time: 1, unit: 'HOURS') {
               def qg = waitForQualityGate()
               if (qg.status != 'OK') {
                   error "Pipeline aborted due to quality gate failure: ${qg.status}"
               }
-          }
       }     
     } 
