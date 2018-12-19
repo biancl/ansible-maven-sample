@@ -22,7 +22,7 @@ node('maven') {
         [$class: 'RebuildSettings', autoRebuild: false, rebuildDisabled: false], 
         parameters([
             string(defaultValue: 'http://200.31.147.77/devops/ansible-maven-sample.git', description: '代码仓库地址', name: 'REPOSITORY_URL'), 
-            credentials(credentialType: 'com.cloudbees.plugins.credentials.common.StandardCredentials', defaultValue: '', description: '源码仓库认证', name: 'REPOSITORY_CREDENTIAL_ID', required: false)]), 
+            credentials(credentialType: 'com.cloudbees.plugins.credentials.common.StandardCredentials', defaultValue: 'git', description: '源码仓库认证', name: 'REPOSITORY_CREDENTIAL_ID', required: false)]), 
             pipelineTriggers([
                 [
                     $class: 'GitLabPushTrigger',
@@ -62,14 +62,15 @@ node('maven') {
         gitlabCommitStatus("Scan") {
               withSonarQubeEnv('cfets-sonar') {
                  rtMaven.run pom:'pom.xml', goals: 'clean org.jacoco:jacoco-maven-plugin:prepare-agent'
-                //  rtMaven.run pom:'pom.xml', goals: 'compile  sonar:sonar'
+                 sleep time: 1, unit: 'MINUTES';
+                 rtMaven.run pom:'pom.xml', goals: 'compile  sonar:sonar'
       }
         }
     }
 
     stage('Unit Test') {
         gitlabCommitStatus("Test") {
-        rtMaven.run pom: 'pom.xml', goals: 'test '
+        rtMaven.run pom: 'pom.xml', goals: 'test'
         }
     }
       
