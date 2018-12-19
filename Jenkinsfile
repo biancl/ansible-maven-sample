@@ -38,8 +38,8 @@ node('maven') {
     //         ])
     // ])
 
-    echo "GITLAB_CONNECTION=$GITLAB_CONNECTION";
-    echo "SONAR_SERVER=$SONAR_SERVER";
+    echo "GITLAB_CONNECTION=$env.GITLAB_CONNECTION";
+    echo "SONAR_SERVER=$env.SONAR_SERVER";
 
     properties([
         gitLabConnection('$GITLAB_CONNECTION'), 
