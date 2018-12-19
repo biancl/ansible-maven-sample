@@ -63,6 +63,10 @@ node('maven') {
     //     deleteDir();
     // }
 
+    input message: '请输入/选择构建参数', parameters: [
+        credentials(credentialType: 'com.cloudbees.plugins.credentials.common.StandardCredentials', defaultValue: 'git', description: '源码仓库认证', name: 'REPOSITORY_CREDENTIAL_ID', required: true), 
+        string(defaultValue: 'http://200.31.147.77/devops/ansible-maven-sample.git', description: '代码仓库地址', name: 'REPOSITORY_URL')];
+
     gitlabBuilds(builds: ['Checkout', 'Scan', 'Test', 'Quality Gate']){
 
     stage('Check out'){
