@@ -73,7 +73,7 @@ node('maven') {
         gitlabCommitStatus("Test") {
         echo "=============================unit test start================================================="
             rtMaven.run pom:'pom.xml', goals: 'org.jacoco:jacoco-maven-plugin:prepare-agent  test'
-            jacoco()
+            // jacoco()     //需安装jacoco插件
             echo "=============================unit test end================================================="
         }
     }
