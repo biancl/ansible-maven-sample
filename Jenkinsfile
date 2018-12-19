@@ -21,7 +21,7 @@ node('maven') {
     //     string(defaultValue: 'cfets-gitlab', description: 'gitlab连接，需在系统设置中配置', name: 'GITLAB_CONNECTION'), 
     //     string(defaultValue: 'cfets-sonar', description: 'sonar服务器连接，需在系统设置中配置', name: 'SONAR_SERVER')];
     properties([
-        gitLabConnection('$GITLAB_CONNECTION'), 
+        gitLabConnection("$GITLAB_CONNECTION"), 
         [$class: 'GitlabLogoProperty', repositoryName: ''], 
         [$class: 'RebuildSettings', autoRebuild: false, rebuildDisabled: false], 
         pipelineTriggers([
@@ -61,7 +61,7 @@ node('maven') {
     
     stage("SonarQube scan") {
         gitlabCommitStatus("Scan") {
-              withSonarQubeEnv('$SONAR_SERVER') {
+              withSonarQubeEnv("$SONAR_SERVER") {
                 rtMaven.run pom:'pom.xml', goals: '-Dmaven.test.skip=true  compile  sonar:sonar'
       }
         }
