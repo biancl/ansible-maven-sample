@@ -76,14 +76,15 @@ node('maven') {
     stage("SonarQube scan") {
         gitlabCommitStatus("Scan") {
               withSonarQubeEnv('cfets-sonar') {
-                 rtMaven.run pom:'pom.xml', goals: 'clean org.jacoco:jacoco-maven-plugin:prepare-agent  compile  sonar:sonar'
+                 rtMaven.run pom:'pom.xml', goals: 'clean org.jacoco:jacoco-maven-plugin:prepare-agent'
+                 rtMaven.run pom:'pom.xml', goals: 'org.jacoco:jacoco-maven-plugin:prepare-agent  compile  sonar:sonar'
       }
         }
     }
 
     stage('Unit Test') {
         gitlabCommitStatus("Test") {
-        rtMaven.run pom: 'pom.xml', goals: 'clean test '
+        rtMaven.run pom: 'pom.xml', goals: 'test '
         }
     }
       
