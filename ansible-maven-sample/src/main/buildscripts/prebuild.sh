@@ -1,2 +1,2 @@
-echo "exec echo command start ***********************************************************"
+echo "prebuild"
 echo "abcdefghijklmnopqrstuvwxyz" > md5.txt

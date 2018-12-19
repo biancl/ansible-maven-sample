@@ -2,6 +2,10 @@
   file:
     path: '{{tomcat.dir}}/'
     state: absent
+- name: create install dir
+  file:
+    path: '{{tomcat.base_url}}'
+    state: directory
 - name: download tomcat from artifactory
   get_url: 
     validate_certs: no

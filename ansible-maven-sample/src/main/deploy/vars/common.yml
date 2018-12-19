@@ -1,6 +1,6 @@
 
 artifactory:
-  repo: http://172.17.197.192:8081/artifactory/app-statges-local/
+  repo: http://172.17.197.192:8081/artifactory/app-dev-local/
 
 app:
   installer_dir: ./installers
