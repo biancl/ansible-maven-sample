@@ -61,16 +61,17 @@ node('maven') {
     stage("SonarQube scan") {
         gitlabCommitStatus("Scan") {
               withSonarQubeEnv('cfets-sonar') {
-                 rtMaven.run pom:'pom.xml', goals: 'clean org.jacoco:jacoco-maven-plugin:prepare-agent'
-                 sleep time: 1, unit: 'MINUTES';
-                 rtMaven.run pom:'pom.xml', goals: 'compile  sonar:sonar'
+                rtMaven.run pom:'pom.xml', goals: '-Dmaven.test.skip=true  compile  sonar:sonar'
       }
         }
     }
 
     stage('Unit Test') {
         gitlabCommitStatus("Test") {
-        rtMaven.run pom: 'pom.xml', goals: 'test'
+        echo "=============================unit test start================================================="
+            rtMaven.run pom:'pom.xml', goals: 'org.jacoco:jacoco-maven-plugin:prepare-agent  test'
+            jacoco()
+            echo "=============================unit test end================================================="
         }
     }
       
