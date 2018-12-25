@@ -1,1 +1,9 @@
-ansible maven示例项目，测试使用，测试delete workspace作用
+# CICD示例项目
+
+## CICD脚本
+
++ Jenkinsfile
++ Jenkinsfile-deploy
+
+
+
