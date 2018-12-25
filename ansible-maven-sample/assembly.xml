@@ -2,7 +2,7 @@
     <id>deploy</id>
     <includeBaseDirectory>false</includeBaseDirectory>
     <formats>
-        <format>tar</format>
+        <format>tar.gz</format>
     </formats>
     <fileSets>
         <fileSet>

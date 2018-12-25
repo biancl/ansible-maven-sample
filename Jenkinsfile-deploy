@@ -1,0 +1,42 @@
+#!groovy
+
+node('ansible-master') {
+    
+    def artServer = Artifactory.newServer url: "$ATF_URL", credentialsId: 'GLOBAL-ARTIFACTORY';
+	def ansible_ssh_credential='app-172.17.197.195';
+	def playbook_path='deploy/app.yml';
+	def inventory_path='deploy/inventories/stage/hosts';
+	def group_path='com/cfets/devops/ansible-maven-sample';
+	def artifact_id='ansible-maven-sample';
+	def classifier='deploy';
+	def artifact_type='tar';
+	
+	properties([
+		parameters([
+			string(defaultValue: '', description: '版本号，应当与构建产出物版本号一致', name: 'version')])])
+
+
+   
+    stage('download artifacts'){
+        cleanWs();
+        echo "ATF_URL=${ATF_URL}";
+        echo "version=${env.version}";
+        withCredentials([usernameColonPassword(credentialsId: 'GLOBAL-ARTIFACTORY', variable: 'ATF_TOKEN')]){
+            sh "curl -k -u $ATF_TOKEN -O ${ATF_APP_REPO}/${group_path}/${version}/${artifact_id}-${version}-${classifier}.${artifact_type}" 
+            sh "curl -k -u $ATF_TOKEN -O ${ATF_APP_REPO}/${group_path}/${version}/${artifact_id}-${version}-${classifier}.${artifact_type}.md5"
+        }
+		def name="$artifact_id-${version}-${classifier}.${artifact_type}";
+		def md5name="$artifact_id-${version}-${classifier}.${artifact_type}.md5";
+		echo "name=$name"
+        sh "echo  \" $name\" >> $md5name";
+        sh "md5sum -c $md5name"
+        sh "tar -xvf *.tar"
+    }
+    
+   stage('deploy'){
+        ansiblePlaybook credentialsId: "$ansible_ssh_credential", extras: "-e app_version=${version}", inventory: "$inventory_path", playbook: "$playbook_path"
+   }
+
+    
+    
+}
